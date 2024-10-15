@@ -9,7 +9,7 @@ conda activate lkf_tools
 
 set -ex
 
-cd /home/jfl001/Lemieux_et_al_plast_pot/lkf_package_tool
+cd /home/jfl001/Lemieux_et_al_plast_pot/lkf_pack_ice_mask
 
 #./lance_calc_dist.sh
 

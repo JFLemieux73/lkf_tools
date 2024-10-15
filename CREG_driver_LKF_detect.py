@@ -33,11 +33,11 @@ EXP='run_eg1p75_ef1p75'
 
 main_dir='/home/jfl001/data/runsLemieux_et_al_plast_pot/'
 main_dir_grid='/home/socn000/data/eccc-ppp5/env_rhel-8-icelake-64/datafiles/constants/oce/repository/master/CONCEPTS/'
-store_main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
+store_main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag_pack'
 kvalue=7 # value for kernel
 produce_plot=False
-SDATE='20060101'
-EDATE='20060531'
+SDATE='20050101'
+EDATE='20050531'
 FREQ='24H'
 suffix='0000_iceh_inst'
 

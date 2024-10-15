@@ -110,6 +110,10 @@ class process_dataset(object):
 
         thr_aice = 0.15 # detect LKFs only if aice > thr_aice
 
+        # open pack ice mask
+        path_filemask='/home/jfl001/data/Lemieux_et_al_plast_pot/UTIL/mask_pack_ice.npy'
+        pmask = np.load(path_filemask,allow_pickle=True) # 1 or 0
+
         # Check for already dectected features
         if force_redetect:
             self.lkf_filelist = [i for i in os.listdir(self.lkfpath) if i.startswith('lkf') and i.endswith('.npy')]
@@ -159,7 +163,8 @@ class process_dataset(object):
                         shr = np.sqrt((dudx-dvdy)**2 + (dudy + dvdx)**2) * 3600. *24. # in day^-1
                         vor = 0.5*(dudy-dvdx) * 3600. *24. # in day^-1
                 eps_tot = np.sqrt(div**2+shr**2)
-                eps_tot = eps_tot.where((aice>thr_aice) & (aice<=1))
+#                eps_tot = eps_tot.where((aice>thr_aice) & (aice<=1))
+                eps_tot = eps_tot.where((aice>thr_aice) & (aice<=1) & (pmask==1) )
 
 #               jfl replaced line below by line above...does not work because of nans?
 #                eps_tot = eps_tot.where((aice[1:-1,1:-1]>0) & (aice[1:-1,1:-1]<=1))
