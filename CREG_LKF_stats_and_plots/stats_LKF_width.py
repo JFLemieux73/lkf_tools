@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 creggrid='creg025' # creg025 or creg12
 #----- INPUT -----
-EXP='run_eg1p0_ef1p5'
+#EXP='run_eg1p0_ef1p5'
 #EXP='run_eg1p5_ef1p5'
 #EXP='run_eg2p25_ef1p5'
 #EXP='run_eg1p16_ef1p75'
@@ -18,11 +18,16 @@ EXP='run_eg1p0_ef1p5'
 #EXP='run_eg2p63_ef1p75'
 #EXP='run_eg1p33_ef2p0'
 #EXP='run_eg2p0_ef2p0'
-#EXP='run_eg3p0_ef2p0'
+EXP='run_eg3p0_ef2p0'
+
+#EXP='run_eg1p75_ef1p16'
+#EXP='run_eg1p75_ef1p5'
+#EXP='run_eg1p75_ef2p0'
+#EXP='run_eg1p75_ef2p63'
 
 SDATE='20050101'
 EDATE='20050531'
-main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
+main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag_pack'
 fraclabel='0p5'
 
 nbbins=71
@@ -81,7 +86,7 @@ plt.xlabel('LKF width', fontsize=14)
 plt.ylabel('Fraction of counts', fontsize=14)
 plt.xlim([0, 15]) 
 plt.ylim([0, 0.45]) 
-plt.savefig(path_fileout)
+#plt.savefig(path_fileout)
 #plt.savefig('youhhh.png')
 
 
