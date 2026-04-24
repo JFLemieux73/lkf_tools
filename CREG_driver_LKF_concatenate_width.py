@@ -1,8 +1,9 @@
 import os,sys
+sys.path.append(r'lkf_tools/')
 import numpy as np
 import pandas as pd
 from datetime import timedelta
-from CREG_lkf_tools import CREG_lkf_concatenate_width
+from lkf_metrics import CREG_lkf_concatenate_width
 import pickle
 import calendar
 
