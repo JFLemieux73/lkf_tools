@@ -31,14 +31,14 @@ EXP='run_eg1p75_ef1p75'
 #EXP='run_eg2p0_ef2p0'
 #EXP='run_eg3p0_ef2p0'
 
-main_dir='/home/jfl001/data/runsLemieux_et_al_plast_pot/'
-main_dir_grid='/home/socn000/data/eccc-ppp5/env_rhel-8-icelake-64/datafiles/constants/oce/repository/master/CONCEPTS/'
-store_main_dirTP='/home/jfl001/data/Lemieux_et_al_plast_pot'
+main_dir='/home/jfl001/data/TESTlkf'
+main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS/'
+store_main_dirTP='/home/jfl001/data/TESTlkf/storage'
 kvalue=7 # value for kernel
-produce_plot=False
+produce_plot=True
 pack_ice_mask=False
-SDATE='20050101'
-EDATE='20050101'
+SDATE='20050425'
+EDATE='20050425'
 FREQ='24H'
 suffix='0000_iceh_inst'
 
