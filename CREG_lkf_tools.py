@@ -18,7 +18,7 @@ from lkf_tools.dataset import *
 #
 #------------------------------------------------------------
 
-def CREG_lkf_detect(date, creggrid, cregflag, grid_path, data_path, store_path, fileout, kvalue, produce_plot, pack_ice_mask):
+def lkf_detect(date, creggrid, vortflag, grid_path, data_path, store_path, fileout, kvalue, produce_plot, pack_ice_mask):
 
     print(fileout)
 
@@ -26,13 +26,13 @@ def CREG_lkf_detect(date, creggrid, cregflag, grid_path, data_path, store_path, 
 
     creg_nc = xr.open_dataset(data_path)
 
-    if cregflag == 1:
+    if vortflag == 1:
         variables = ['divu','shear','vort','aice','uvel','vvel']
         creg_nc = xr.open_dataset(data_path)
         creg_nc=creg_nc[variables]
         creg_nc = creg_nc.rename({'nj':'y','ni':'x','divu':'div', 'shear':'shr', 'vort':'vor', 'aice':'A', 
                                   'uvel':'U', 'vvel':'V'})
-    elif cregflag == 2:
+    elif vortflag == 2:
         variables = ['divu','shear','aice','uvel','vvel']
         creg_nc = xr.open_dataset(data_path)
         creg_nc=creg_nc[variables]
@@ -77,7 +77,7 @@ def CREG_lkf_detect(date, creggrid, cregflag, grid_path, data_path, store_path, 
 
     print('call process_dataset')
 
-    lkf_data = process_dataset(fileout,creg=cregflag, usepmask=pack_ice_mask, output_path=store_path,
+    lkf_data = process_dataset(fileout,creg=vortflag, usepmask=pack_ice_mask, output_path=store_path,
                                xarray=creg_nc, skeleton_kernel=kvalue, t_red=1)
 
     lkf_data.detect_lkfs(indexes=[0])

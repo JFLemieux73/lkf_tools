@@ -6,20 +6,27 @@ from CREG_lkf_tools  import *
 import pickle
 import calendar
 
-#----  CREG_driver_LKF_detect -------------------------------
+#----  driver_LKF_detect ----------------------------------------
 #
-# Driver that loops through a series of files (dates) and that 
-# calls the funtion CREG_lkf_detect.
+# Driver that loops through a series of netcdf files (dates) and 
+# that calls the funtion lkf_detect.
 #
-#------------------------------------------------------------
+# The detection algo was tested for the CONCEPTS regional (creg)
+# grids. The code aborts for other grids. Using another grid 
+# would need careful testing for a proper detection of LKFs. 
+#
+# The coordinate file for the grid should include lat,lon and 
+# the x and y dimensions of the cells.
+#
+#----------------------------------------------------------------
 
 #----- INPUT -----
 #ni = 528 ; creg025
 #nj = 735 ;
 #ni = 1580 ; creg12
 #nj = 2198 ;
-cregflag=1 # 1: output includes vorticity, 2: no vorticity
-creggrid='creg12' # creg025 or creg12
+vortflag=1 # 1: output includes vorticity, 2: no vorticity
+grid='creg12' # creg025 or creg12
 
 #EXP='run_eg1p0_ef1p5'
 #EXP='run_eg1p5_ef1p5'
@@ -33,7 +40,7 @@ EXP='run_eg1p75_ef1p75'
 
 main_dir='/home/jfl001/data/TESTlkf'
 main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS/'
-store_main_dirTP='/home/jfl001/data/TESTlkf/storage'
+store_main_dirTP='/home/jfl001/data/DEVlkfv3'
 kvalue=7 # value for kernel
 produce_plot=True
 pack_ice_mask=False
@@ -54,9 +61,9 @@ else:
 
 #----- define paths and file name --------
 
-if (creggrid == 'creg025'):
+if (grid == 'creg025'):
     grid_path=os.path.join(main_dir_grid+'/creg025pe/grid/coordinates_CREG025_LIM.nc')
-elif (creggrid == 'creg12'):
+elif (grid == 'creg12'):
     grid_path=os.path.join(main_dir_grid+'/creg012pe/grid/coordinates_CREG12_ext.nc')
 else:
     print ("Wrong choice of grid")
@@ -75,7 +82,7 @@ for i in range(len(list_dates)) :
     data_path=os.path.join(main_dir+'/'+EXP+'/hourly/'+date0+suffix+'.nc')
     fileout=date0 + '_' + EXP
     print(fileout)
-    CREG_lkf_detect(date0, creggrid, cregflag, grid_path, data_path, store_path, fileout, kvalue, produce_plot, pack_ice_mask)
+    lkf_detect(date0, grid, vortflag, grid_path, data_path, store_path, fileout, kvalue, produce_plot, pack_ice_mask)
 
 print('Detection done for experiment:')
 print(EXP)

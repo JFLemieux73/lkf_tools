@@ -18,7 +18,7 @@ import calendar
 #nj = 735 ;
 #ni = 1580 ; creg12
 #nj = 2198 ;
-cregflag=2 # 1: output includes vorticity, 2: no vorticity
+vortflag=2 # 1: output includes vorticity, 2: no vorticity
 creggrid='creg12' # creg025 or creg12
 #EXP='control'
 #main_dir='/home/chh005/data/ppp6/maestro_archives/IC4/RXFC24LONG19V1/SAM2'
@@ -63,7 +63,7 @@ for i in range(len(list_dates)) :
     data_path=os.path.join(dir_anal+'/CICE/history/'+date0+suffix+'.nc')
     fileout=date0 + suffix + '_' + EXP
     print(fileout)
-    CREG_lkf_detect(date0, creggrid, cregflag, grid_path, data_path, store_path, fileout, kvalue, produce_plot)
+    lkf_detect(date0, creggrid, vortflag, grid_path, data_path, store_path, fileout, kvalue, produce_plot)
 
 print('Detection done for experiment:')
 print(EXP)
