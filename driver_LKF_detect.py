@@ -28,16 +28,7 @@ import calendar
 #nj = 2198 ;
 vortflag=1 # 1: output includes vorticity, 2: no vorticity
 grid='creg12' # creg025 or creg12
-
-#EXP='run_eg1p0_ef1p5'
-#EXP='run_eg1p5_ef1p5'
-#EXP='run_eg2p25_ef1p5'
-#EXP='run_eg1p16_ef1p75'
 EXP='run_eg1p75_ef1p75'
-#EXP='run_eg2p63_ef1p75'
-#EXP='run_eg1p33_ef2p0'
-#EXP='run_eg2p0_ef2p0'
-#EXP='run_eg3p0_ef2p0'
 
 main_dir='/home/jfl001/data/TESTlkf'
 main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS/'
@@ -46,7 +37,7 @@ kvalue=7 # value for kernel
 produce_plot=True
 pack_ice_mask=False
 SDATE='20050425'
-EDATE='20050425'
+EDATE='20050426'
 FREQ='24H'
 suffix='0000_iceh_inst'
 
