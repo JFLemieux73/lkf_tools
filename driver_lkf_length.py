@@ -23,21 +23,12 @@ import calendar
 #ni = 1580 ; creg12
 #nj = 2198 ;
 creggrid='creg12' # creg025 or creg12
+EXP='run_eg1p75_ef1p75'
 
-#EXP='run_eg1p0_ef1p5'
-#EXP='run_eg1p5_ef1p5'
-#EXP='run_eg2p25_ef1p5'
-#EXP='run_eg1p16_ef1p75'
-#EXP='run_eg1p75_ef1p75'
-#EXP='run_eg2p63_ef1p75'
-#EXP='run_eg1p33_ef2p0'
-#EXP='run_eg2p0_ef2p0'
-EXP='run_eg3p0_ef2p0'
-
-main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
-store_main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
-SDATE='20050101'
-EDATE='20050531'
+main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
+store_main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
+SDATE='20050425'
+EDATE='20050426'
 FREQ='24H'
 suffix='0000_iceh_inst'
 
@@ -57,7 +48,7 @@ for i in range(len(list_dates)) :
     print(path_filein)
     fileout=os.path.join(store_path + '/' + date0 + '_length_' + EXP + '.py')
     print(fileout)
-    CREG_lkf_length(date0,creggrid,path_filein,fileout)
+    lkf_length(date0,creggrid,path_filein,fileout)
 
-print('CREG_driver_LKF_length is done')
+print('driver_LKF_length is done')
 print(EXP)

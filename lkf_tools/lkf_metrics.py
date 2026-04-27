@@ -1092,7 +1092,7 @@ def CREG_lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
     df.to_csv(fileout, index=False)
 
 #------------------------------------------------------------
-#  Functions for CREG_lkf_length
+#  Functions for lkf_length
 #------------------------------------------------------------
 
 def haversine(re,lat1, lon1, lat2, lon2):
@@ -1116,7 +1116,7 @@ def haversine(re,lat1, lon1, lat2, lon2):
     c = 2 * np.arcsin(np.sqrt(a))
     return c * re
 
-#----  CREG_lkf_length --------------------------------------
+#----  lkf_length -------------------------------------------
 #
 # Calculate length of LKF. There is no polynomial fit used. 
 # The length is calculated from one pixel to the next using 
@@ -1124,7 +1124,7 @@ def haversine(re,lat1, lon1, lat2, lon2):
 #
 #------------------------------------------------------------
 
-def CREG_lkf_length(date,creggrid,path_filein,fileout):
+def lkf_length(date,creggrid,path_filein,fileout):
     
     print('working on date:')
     print(date)
