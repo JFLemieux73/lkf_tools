@@ -10,9 +10,9 @@ from pathlib import Path
 from shapely.geometry import LineString
 from lkf_tools.dataset import *
 
-#----  CREG_lkf_detect --------------------------------------
+#----  lkf_detect -------------------------------------------
 #
-# Prepares CREG netcdf outputs to be used by Nils' LKF
+# Prepares netcdf outputs to be used by Nils' LKF
 # detection algorithm. Also offers possibility to plot 
 # detected LKFs on pan-Arctic grid (produce_plot=True).
 #
@@ -429,7 +429,7 @@ def lkf_density(date,creggrid,path_filein):
 
 
 #------------------------------------------------------------
-#  Functions for CREG_lkf_pairs_and_angles
+#  Functions for lkf_pairs_and_angles
 #------------------------------------------------------------
 
 #---- identify type of intersection -------------------------
@@ -627,14 +627,14 @@ def extra_pt_end(im1, im2, jm1, jm2):
         
     return iend,jend
 
-#----  CREG_lkf_pairs_and_angles ----------------------------
+#----  lkf_pairs_and_angles ---------------------------------
 #
 # Identifies pairs of LKFs that intersect and calc the 
 # intersection angle. 
 #
 #------------------------------------------------------------
 
-def CREG_lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2,dlt):
+def lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2,dlt):
     
     print('working on date:')
     print(date)

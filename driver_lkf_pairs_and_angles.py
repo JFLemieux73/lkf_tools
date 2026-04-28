@@ -3,11 +3,11 @@ sys.path.append(r'lkf_tools/')
 import numpy as np
 import pandas as pd
 from datetime import timedelta
-from lkf_metrics  import *
+from lkf_metrics  import lkf_pairs_and_angles
 import pickle
 import calendar
 
-#----  CREG_driver_LKF_get_angles ------------------------------
+#----  driver_lkf_pairs_and_angles ------------------------------
 #
 # finds pairs of intersecting LKFs, calc angles and identify 
 # conjugate fault lines 
@@ -26,21 +26,12 @@ import calendar
 # Important: given intersection point ip with coordinates (ip,jp), polyfit on LKF is done for the region ip-delta to ip + delta. 
 
 creggrid='creg12' # creg025 or creg12
+EXP='run_eg1p75_ef1p75'
 
-#EXP='run_eg1p0_ef1p5'
-EXP='run_eg1p5_ef1p5'
-#EXP='run_eg2p25_ef1p5'
-#EXP='run_eg1p16_ef1p75'
-#EXP='run_eg1p75_ef1p75'
-#EXP='run_eg2p63_ef1p75'
-#EXP='run_eg1p33_ef2p0'
-#EXP='run_eg2p0_ef2p0'
-#EXP='run_eg3p0_ef2p0'
-
-main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
-main_dirnc='/home/jfl001/data/runsLemieux_et_al_plast_pot'
-SDATE='20050101'
-EDATE='20050531'
+main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
+main_dirnc='/home/jfl001/data/TESTlkf'
+SDATE='20050425'
+EDATE='20050426'
 FREQ='24H'
 suffix='0000_iceh_inst'
 delta=10
@@ -70,7 +61,7 @@ for i in range(len(list_dates)) :
     fileout1=os.path.join(store_path1 + '/' + date0 + '_intpairs_' + EXP + '_delta' + dlabel +'.py')
     fileout2=os.path.join(store_path2 + '/' + date0 + '_anggrid_at_int_' + EXP + '_delta' + dlabel +'.py')
     print(fileout1)
-    CREG_lkf_pairs_and_angles(date0,creggrid,path_filein,data_pathnc,fileout1,fileout2,delta)
+    lkf_pairs_and_angles(date0,creggrid,path_filein,data_pathnc,fileout1,fileout2,delta)
 
-print('CREG_driver_LKF_pairs_and_angles is done')
+print('driver_LKF_pairs_and_angles is done')
 print(EXP)
