@@ -3,11 +3,10 @@ sys.path.append(r'lkf_tools/')
 import numpy as np
 import pandas as pd
 from datetime import timedelta
-from lkf_metrics  import *
 import pickle
 import calendar
 
-#----  CREG_driver_LKF_number ------------------------------
+#----  driver_lkf_number ------------------------------------
 #
 # Driver that loops through a series of files (dates) and that 
 # get the nb of LKFs and store it in output file 
@@ -23,21 +22,12 @@ import calendar
 #ni = 1580 ; creg12
 #nj = 2198 ;
 creggrid='creg12' # creg025 or creg12
+EXP='run_eg1p75_ef1p75'
 
-#EXP='run_eg1p0_ef1p5'
-#EXP='run_eg1p5_ef1p5'
-#EXP='run_eg2p25_ef1p5'
-#EXP='run_eg1p16_ef1p75'
-#EXP='run_eg1p75_ef1p75'
-#EXP='run_eg2p63_ef1p75'
-#EXP='run_eg1p33_ef2p0'
-#EXP='run_eg2p0_ef2p0'
-EXP='run_eg3p0_ef2p0'
+main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
 
-main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
-
-SDATE='20050101'
-EDATE='20050531'
+SDATE='20050425'
+EDATE='20050426'
 FREQ='24H'
 
 #-----------------------------------------
