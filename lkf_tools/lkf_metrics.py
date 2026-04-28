@@ -303,13 +303,13 @@ def lkf_calc_width(date,creggrid,path_filedist,path_filein,path_fileout,data_pat
 
     np.save(path_fileout,out_lkfs,allow_pickle=True)
 
-#----  CREG_lkf_concatenate_width ---------------------------
+#----  lkf_concatenate_width --------------------------------
 #
 # Concatenate half widths of a given LKF file in two vectors.
 # 
 #------------------------------------------------------------
 
-def CREG_lkf_concatenate_width (date,path_filein, hwidth):
+def lkf_concatenate_width (date,path_filein, hwidth):
     
 # ilkf[n,7] = hwidth1
 # ilkf[n,8] = hwidth2
