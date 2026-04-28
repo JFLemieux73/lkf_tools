@@ -3,18 +3,17 @@ sys.path.append(r'lkf_tools/')
 import numpy as np
 import pandas as pd
 from datetime import timedelta
-from lkf_metrics  import *
+from lkf_metrics  import lkf_length
 import pickle
 import calendar
 
-#----  CREG_driver_LKF_get_angles ------------------------------
-#
-# finds pairs of intersecting LKFs, calc angles and identify 
-# conjugate fault lines 
+#----  driver_lkf_length ------------------------------------
 # 
-# note: there is no condition applied here for distance to 
-#       land. This could be applied later for plotting. 
-#
+# Driver that calls lkf_length function to calculate length 
+# of LKFs. There is no polynomial fit used. The length is 
+# calculated from one pixel to the next using the haversine 
+# formula.
+# 
 #------------------------------------------------------------
 
 #----- INPUT -----

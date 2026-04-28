@@ -7,7 +7,7 @@ from lkf_metrics  import *
 import pickle
 import calendar
 
-#----  driver_LKF_detect ----------------------------------------
+#----  driver_lkf_detect ----------------------------------------
 #
 # Driver that loops through a series of netcdf files (dates) and 
 # that calls the funtion lkf_detect.
