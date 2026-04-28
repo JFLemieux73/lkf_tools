@@ -1,42 +1,29 @@
 import os,sys
+sys.path.append(r'lkf_tools/')
 import numpy as np
 import pandas as pd
 from datetime import timedelta
-from CREG_lkf_tools import CREG_lkf_concatenate_width
+from lkf_metrics import lkf_concatenate_width
 import pickle
 import calendar
 
-#----  CREG_driver_concatenate_width ------------------------
+#----  driver_concatenate_width ------------------------------
 #
 # Driver that loops through a series of files (dates) and that 
-# calls the funtion CREG_lkf_concatenate_width. That function
-# concatenate the half widths for one LKF file (one date) and
+# calls the funtion lkf_concatenate_width. This function
+# concatenates the half widths for one LKF file (one date) and
 # the concatenation for multiple files (mutiple dates) is done
 # here in the driver.
 #
 #------------------------------------------------------------
 
 #----- INPUT -----
-#EXP='run_eg1p0_ef1p5'
-#EXP='run_eg1p5_ef1p5'
-#EXP='run_eg2p25_ef1p5'
-#EXP='run_eg1p16_ef1p75'
 EXP='run_eg1p75_ef1p75'
-#EXP='run_eg2p63_ef1p75'
-#EXP='run_eg1p33_ef2p0'
-#EXP='run_eg2p0_ef2p0'
-#EXP='run_eg3p0_ef2p0'
-
-#EXP='run_eg1p75_ef1p16'
-#EXP='run_eg1p75_ef1p5'
-#EXP='run_eg1p75_ef2p0'
-#EXP='run_eg1p75_ef2p63'
-
-main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
+main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
 
 FREQ='24H'
-SDATE='20050101'
-EDATE='20050531'
+SDATE='20050425'
+EDATE='20050426'
 suffix='_000'
 fraclabel='0p5'
 dsearch=5 # +- dsearch cells around one LKF cell (dist is capped if searching too far!!!)
@@ -67,12 +54,12 @@ for i in range(len(list_dates)):
     
     tpvect=[]
     path_filein=os.path.join(main_dir+'/'+EXP+'/detectedLKFs/'+tpdir+'/'+filein)
-    tpvect=CREG_lkf_concatenate_width (date0, path_filein, hwidth=1)
+    tpvect=lkf_concatenate_width (date0, path_filein, hwidth=1)
     hwidth1.extend(tpvect)
 
     tpvect=[]
     path_filein=os.path.join(main_dir+'/'+EXP+'/detectedLKFs/'+tpdir+'/'+filein)
-    tpvect=CREG_lkf_concatenate_width (date0, path_filein, hwidth=2)
+    tpvect=lkf_concatenate_width (date0, path_filein, hwidth=2)
     hwidth2.extend(tpvect)
 
 np.save(path_fileout1,hwidth1,allow_pickle=True)

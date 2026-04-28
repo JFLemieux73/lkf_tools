@@ -1,18 +1,19 @@
 import os,sys
+sys.path.append(r'lkf_tools/')
 import numpy as np
 import pandas as pd
 from datetime import timedelta
-from CREG_lkf_tools  import *
+from lkf_metrics  import lkf_calc_width
 import pickle
 import calendar
 
-#----  CREG_driver_LKF_calc_width ---------------------------
+#----  driver_lkf_calc_width ---------------------------------
 #
 # Driver that loops through a series of files (dates) and that 
-# calls the funtion CREG_lkf_calc_width that calculates the LKF
+# calls the funtion lkf_calc_width that calculates the LKF
 # half widths.
 #
-#------------------------------------------------------------
+#-------------------------------------------------------------
 
 #----- INPUT -----
 #ni = 528 ; creg025
@@ -20,31 +21,18 @@ import calendar
 #ni = 1580 ; creg12
 #nj = 2198 ;
 creggrid='creg12' # creg025 or creg12
-#EXP='run_eg1p0_ef1p5'
-#EXP='run_eg1p5_ef1p5'
-#EXP='run_eg2p25_ef1p5'
-#EXP='run_eg1p16_ef1p75'
-#EXP='run_eg1p75_ef1p75'
-#EXP='run_eg2p63_ef1p75'
-#EXP='run_eg1p33_ef2p0'
-#EXP='run_eg2p0_ef2p0'
-EXP='run_eg3p0_ef2p0'
+EXP='run_eg1p75_ef1p75'
 
-#EXP='run_eg1p75_ef1p16'
-#EXP='run_eg1p75_ef1p5'
-#EXP='run_eg1p75_ef2p0'
-#EXP='run_eg1p75_ef2p63'
-
-main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
-main_dirnc='/home/jfl001/data/runsLemieux_et_al_plast_pot/'
-dir_util='/home/jfl001/Lemieux2022/UTIL'
+main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
+main_dirnc='/home/jfl001/data/TESTlkf/'
+dir_util='/home/jfl001/data/Lemieux2022/UTIL'
 dsearch=5 # +- dsearch cells around one LKF cell (dist is capped if searching too far!!!)
 frac=0.5 # half width is defined as eps_tot < frac*LKFepsmax 
 mindist=0.0 # LKF point is analysed if dist from land > mindist (km)
 
 FREQ='24H'
-SDATE='20050101'
-EDATE='20050531'
+SDATE='20050425'
+EDATE='20050426'
 suffix='0000_iceh_inst'
 
 #----- label for width criterion ---------------------------
@@ -77,7 +65,7 @@ for i in range(len(list_dates)) :
     data_pathnc=os.path.join(main_dirnc+'/'+EXP+'/hourly/'+date0+suffix+'.nc')
     path_filedist=os.path.join(dir_util +'/dist_'+creggrid+'.pkl')
 
-    CREG_lkf_calc_width(date0,creggrid,path_filedist,path_filein,path_fileout,data_pathnc,dsearch,frac,mindist)
+    lkf_calc_width(date0,creggrid,path_filedist,path_filein,path_fileout,data_pathnc,dsearch,frac,mindist)
 
 print('Width analysis done for experiment:')
 print(EXP)

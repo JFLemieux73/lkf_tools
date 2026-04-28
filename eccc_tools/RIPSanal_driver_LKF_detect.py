@@ -1,8 +1,9 @@
 import os,sys
+sys.path.append(r'lkf_tools/')
 import numpy as np
 import pandas as pd
 from datetime import timedelta
-from CREG_lkf_tools  import *
+from lkf_metrics  import *
 import pickle
 import calendar
 
@@ -18,29 +19,20 @@ import calendar
 #nj = 735 ;
 #ni = 1580 ; creg12
 #nj = 2198 ;
-cregflag=1 # 1: output includes vorticity, 2: no vorticity
+vortflag=2 # 1: output includes vorticity, 2: no vorticity
 creggrid='creg12' # creg025 or creg12
-
-#EXP='run_eg1p0_ef1p5'
-#EXP='run_eg1p5_ef1p5'
-#EXP='run_eg2p25_ef1p5'
-#EXP='run_eg1p16_ef1p75'
-EXP='run_eg1p75_ef1p75'
-#EXP='run_eg2p63_ef1p75'
-#EXP='run_eg1p33_ef2p0'
-#EXP='run_eg2p0_ef2p0'
-#EXP='run_eg3p0_ef2p0'
-
-main_dir='/home/jfl001/data/TESTlkf'
-main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS/'
-store_main_dirTP='/home/jfl001/data/TESTlkf/storage'
+#EXP='control'
+#main_dir='/home/chh005/data/ppp6/maestro_archives/IC4/RXFC24LONG19V1/SAM2'
+EXP='exp1'
+main_dir='/home/phb001/data/ppp6/maestro_archives/riops-a/rx-multicat-leads-1/SAM2'
+main_dir_grid='/home/socn000/data/eccc-ppp5/env_rhel-8-icelake-64/datafiles/constants/oce/repository/master/CONCEPTS/'
+store_main_dir='/home/jfl001/data/LKF_rips_analysis'
 kvalue=7 # value for kernel
 produce_plot=True
-pack_ice_mask=False
-SDATE='20050425'
-EDATE='20050425'
-FREQ='24H'
-suffix='0000_iceh_inst'
+SDATEa='20200930' # start date analysis...history file start 7 days before
+EDATEa='20200930' # end   date analysis...history file start 7 days before
+FREQ='168H'
+suffix='_003_iau' # IMPORTANT...verify a specific hour
 
 #----- check kernel value ----------------
 # kvalue should be odd: see Nils' email (4 nov 2022)
@@ -61,21 +53,18 @@ elif (creggrid == 'creg12'):
 else:
     print ("Wrong choice of grid")
 
-if (pack_ice_mask):
-    store_main_dir=store_main_dirTP+'/LKF_diag_pack'
-else:
-    store_main_dir=store_main_dirTP+'/LKF_diag'
-
 store_path=os.path.join(store_main_dir+'/'+EXP+'/detectedLKFs/')
 
-list_dates=list(pd.date_range(SDATE,EDATE, freq=FREQ))
+list_dates=list(pd.date_range(SDATEa,EDATEa, freq=FREQ))
 
 for i in range(len(list_dates)) :
-    date0 = (list_dates[i] + timedelta(days=-0)).strftime('%Y%m%d%H')
-    data_path=os.path.join(main_dir+'/'+EXP+'/hourly/'+date0+suffix+'.nc')
-    fileout=date0 + '_' + EXP
+    date0 = (list_dates[i] + timedelta(days=-7)).strftime('%Y%m%d%H')
+    datea = (list_dates[i] + timedelta(days=-0)).strftime('%Y%m%d')
+    dir_anal=os.path.join(main_dir+'/'+datea)
+    data_path=os.path.join(dir_anal+'/CICE/history/'+date0+suffix+'.nc')
+    fileout=date0 + suffix + '_' + EXP
     print(fileout)
-    CREG_lkf_detect(date0, creggrid, cregflag, grid_path, data_path, store_path, fileout, kvalue, produce_plot, pack_ice_mask)
+    lkf_detect(date0, creggrid, vortflag, grid_path, data_path, store_path, fileout, kvalue, produce_plot)
 
 print('Detection done for experiment:')
 print(EXP)
