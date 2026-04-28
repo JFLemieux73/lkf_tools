@@ -350,16 +350,16 @@ def CREG_lkf_concatenate_width (date,path_filein, hwidth):
     
     return tpvect
 
-#----  CREG_lkf_density -------------------------------------
+#----  lkf_density ------------------------------------------
 #
-# Called by CREG_driver_LKF_density to calculate contribution 
+# Called by driver_lkf_density to calculate contribution 
 # to density from a single LKF file (containing many detected
 # LKFs). There is no criterion applied here for the distance 
 # to land. This could be done later when plotting the density. 
 #
 #------------------------------------------------------------
 
-def CREG_lkf_density(date,creggrid,path_filein):
+def lkf_density(date,creggrid,path_filein):
     
     print('working on date:')
     print(date)
