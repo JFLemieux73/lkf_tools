@@ -3,11 +3,11 @@ sys.path.append(r'lkf_tools/')
 import numpy as np
 import pandas as pd
 from datetime import timedelta
-from lkf_metrics  import *
+from lkf_metrics  import lkf_angles_with_grid
 import pickle
 import calendar
 
-#----  CREG_driver_LKF_angles_with_grid ---------------------
+#----  driver_lkf_angles_with_grid ---------------------------
 #
 # finds minimum angle of LKF (at mid-point) with x or y axis
 #
@@ -26,20 +26,11 @@ import calendar
 # mp-delta to mp + delta. 
 
 creggrid='creg12' # creg025 or creg12
- 
-#EXP='run_eg1p0_ef1p5'
-#EXP='run_eg1p5_ef1p5'
-#EXP='run_eg2p25_ef1p5'
-#EXP='run_eg1p16_ef1p75'
-#EXP='run_eg1p75_ef1p75'
-#EXP='run_eg2p63_ef1p75'
-#EXP='run_eg1p33_ef2p0'
-#EXP='run_eg2p0_ef2p0'
-EXP='run_eg3p0_ef2p0'
+EXP='run_eg1p75_ef1p75'
 
-main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
-SDATE='20050101'
-EDATE='20050531'
+main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
+SDATE='20050425'
+EDATE='20050426'
 FREQ='24H'
 suffix='0000_iceh_inst'
 delta=10 
@@ -62,7 +53,7 @@ for i in range(len(list_dates)) :
     print(path_filein)
     fileout=os.path.join(store_path + '/' + date0 + '_anggrid_ml' + EXP + '_delta' + dlabel +'.py')
     print(fileout)
-    CREG_lkf_angles_with_grid(date0,creggrid,path_filein,fileout,delta)
+    lkf_angles_with_grid(date0,creggrid,path_filein,fileout,delta)
 
-print('CREG_driver_LKF_angles_with_grid is done')
+print('driver_lkf_angles_with_grid is done')
 print(EXP)

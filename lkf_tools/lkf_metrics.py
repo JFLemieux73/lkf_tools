@@ -995,13 +995,13 @@ def CREG_lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fil
     df1.insert(10, 'conj_pair', conjpairlt)
     df1.to_csv(fileout2, index=False)
 
-#----  CREG_lkf_angles_with_grid ----------------------------
+#----  lkf_angles_with_grid ---------------------------------
 #
 # Calculate angle of LKF with grid at mid LKF point
 #
 #------------------------------------------------------------
 
-def CREG_lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
+def lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
     
     print('working on date:')
     print(date)
