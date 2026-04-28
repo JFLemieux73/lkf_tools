@@ -117,7 +117,7 @@ def lkf_detect(date, creggrid, vortflag, grid_path, data_path, store_path, fileo
         plt.colorbar(pcm,label='total deformation')
         plt.savefig(filefig)
 
-#----  CREG_lkf_calc_width ----------------------------------
+#----  lkf_calc_width ---------------------------------------
 #
 # Analyses detected LKFs in order to calculate half widths
 # of LKFs. Detected LKF points have maximum values of eps_tot. 
@@ -131,7 +131,7 @@ def lkf_detect(date, creggrid, vortflag, grid_path, data_path, store_path, fileo
 #
 #------------------------------------------------------------
 
-def CREG_lkf_calc_width(date,creggrid,path_filedist,path_filein,path_fileout,data_path,dsearch,frac,mindist):
+def lkf_calc_width(date,creggrid,path_filedist,path_filein,path_fileout,data_path,dsearch,frac,mindist):
     
     print('working on date:')
     print(date)
