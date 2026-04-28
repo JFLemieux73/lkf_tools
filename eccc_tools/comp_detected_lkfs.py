@@ -1,11 +1,5 @@
-import os,sys
-sys.path.append(r'lkf_tools/')
 import numpy as np
-import pandas as pd
-from datetime import timedelta
-from lkf_metrics  import *
 import pickle
-import calendar
 
 exp='run_eg1p75_ef1p75'
 zdate='2005042500'
