@@ -3,6 +3,11 @@ This repository was forked from https://github.com/nhutter/lkf_tools. The detect
 
 The main driver is driver_lkf_detect.py. There is no config file. The user simply enters inputs in the driver file. 
 
+The detection algorithm requires the activation of lkf_tools with conda (enter proper path_to_conda):
+
+eval "$(path_to_conda shell.bash hook)"  
+conda activate lkf_tools  
+
 Once LKFs have been detected with driver_lkf_detect.py, other drivers can be used to analyse these LKFs. 
 
 ## LKF analysis tools
@@ -22,15 +27,15 @@ The Cryosphere, 19, 10.5194/tc-19-5639-2025.
 
 The drivers for the LKF metrics are:
 
-driver_lkf_angles_with_grid_at_mid_length.py
-driver_lkf_calc_width.py
-driver_lkf_concatenate_width.py
-driver_lkf_density.py
-driver_lkf_length.py
-driver_lkf_number.py
-driver_lkf_pairs_and_angles.py
+driver_lkf_angles_with_grid_at_mid_length.py  
+driver_lkf_calc_width.py  
+driver_lkf_concatenate_width.py  
+driver_lkf_density.py  
+driver_lkf_length.py  
+driver_lkf_number.py  
+driver_lkf_pairs_and_angles.py  
 
-Statistics can then be calculated and plots produced. This can be done using the set of tools in lkf_stats_and_plots.
+Statistics can then be calculated and plots produced. This can be done using the set of tools in lkf_stats_and_plots.  
 
 ## Contact
 
