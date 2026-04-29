@@ -17,20 +17,19 @@ import cartopy.crs as ccrs
 #nj = 2198 ;
 
 creggrid='creg12' # creg025 or creg12
-EXP='eg1p5_ef1p5'
-EXPr='run_eg1.5_ef1.5'
-ddate='2005042300'
-lkfplot=75
-main_dir='/home/jfl001/data/Lemieux_et_al_plast_pot/LKF_diag'
-main_dirnc='/home/jfl001/data/runsLemieux_et_al_plast_pot/'
+EXP='run_eg1p75_ef1p75'
+ddate='2005042600'
+lkfplot=20 # 160 (45deg), 
+main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
+main_dirnc='/home/jfl001/data/TESTlkf/'
 delta=5 # subplot has delta cells on four sides around region of interest
 
 #----- define paths and file names --------
 
 filein='lkf_' + ddate + '_' + EXP + '_001.npy'
 tpdir=ddate + '_' + EXP
-path_filein=os.path.join(main_dir+'/'+EXP+'/'+tpdir+'/'+filein)
-data_path=os.path.join(main_dirnc+'/'+EXPr+'/hourly/'+ddate+'0000_iceh_inst.nc')
+path_filein=os.path.join(main_dir+'/'+EXP+'/detectedLKFs/'+tpdir+'/'+filein)
+data_path=os.path.join(main_dirnc+'/'+EXP+'/hourly/'+ddate+'0000_iceh_inst.nc')
 
 #----- open npy file -----
 
@@ -141,7 +140,7 @@ for jsub in range(jsubfin):
 #        print(eps_totp[jsub,isub])
 
 plt.figure(2)
-plt.pcolor(eps_totp, vmin=0.0, vmax=0.2)
+plt.pcolor(eps_totp, vmin=0.0, vmax=0.5)
 plt.colorbar()
 plt.savefig('eps_tot.png')
 
