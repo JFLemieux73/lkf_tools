@@ -1001,7 +1001,7 @@ def lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2
 #
 #------------------------------------------------------------
 
-def lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
+def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt):
     
     print('working on date:')
     print(date)
@@ -1061,7 +1061,7 @@ def lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
         min_angle=min(anglex,angley)
 
         #--- define y=cte aligned with x axis for plotting ---
-        if ilkf1 == 17588:
+        if ilkf1 == 95:
             nmin=max(0, nmid-dlt-dlt)
             nmax=min(nmid+dlt+dlt,nb1-1)
             xref=i1[nmin:nmax+1]
