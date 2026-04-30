@@ -617,6 +617,7 @@ def xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
 
         lat2=latgrid[j,i]
         lon2=longrid[j,i]
+        # calc distance between y axis and lkf point
         xc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(i1[n]-i1[nmid])
 
         # point on local x axis
@@ -625,6 +626,7 @@ def xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
 
         lat2=latgrid[j,i]
         lon2=longrid[j,i]
+        # calc distance between x axis and lkf point
         yc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(j1[n]-j1[nmid])
         
         m=m+1
@@ -1086,20 +1088,20 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
         nmin=max(0, nmid-dlt)
         nmax=min(nmid+dlt,nb1-1)
 
-        #--- form x(or i) and y(or j) vectors for polyfit ---
-        xf1=i1[nmin:nmax+1] # note that xf1=i1[n1,n2] uses in fact i1[n1,n2-1]
-        yf1=j1[nmin:nmax+1]
+        #--- form i and y vectors in region for the polyfit ---
+        if1=i1[nmin:nmax+1] # note that if1=i1[n1,n2] uses in fact i1[n1,n2-1]
+        jf1=j1[nmin:nmax+1]
         
-        #--- var of xf1 and yf1 vectors to decide type (y=f(x) or =f(y) polyfit ---
-        vari1=max(xf1)-min(xf1) # variation of i1 in pts used for polyfit                    
-        varj1=max(yf1)-min(yf1)
+        #--- var of if1 and jf1 vectors to decide type (y=f(x) or =f(y) polyfit ---
+        vari1=max(if1)-min(if1) # variation of i1 in pts used for polyfit                    
+        varj1=max(jf1)-min(jf1)
 
         #--- x,y coordinates [km] of points in region around mid-point ---
-        if ilkf1 == 95:
-            xc,yc=xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift)
+        xc,yc=xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift)
 
         #--- get polyfit in region around mid-point ---
-        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xf1,yf1,pdeg) # polyfit LKF1
+#        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,if1,jf1,pdeg) # polyfit LKF1
+        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xc,yc,pdeg) # polyfit LKF1
         
         #--- calc angle with respect to x (or i) axis ---
         ptype2=1 #y=mx+b=b
@@ -1114,7 +1116,7 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
         min_angle=min(anglex,angley)
 
         #--- define y=cte aligned with x axis for plotting ---
-        if ilkf1 == 9500:
+        if ilkf1 == 950:
             nmin=max(0, nmid-dlt-dlt)
             nmax=min(nmid+dlt+dlt,nb1-1)
             xref=i1[nmin:nmax+1]
@@ -1122,7 +1124,7 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
             yref=np.zeros(ntp)
             yref[:]=j1[nmid]
             plt.plot(i1,j1, 'c')
-            plt.plot(xf1,yf1, '.b')
+            plt.plot(if1,jf1, '.b')
             plt.plot(xpf1,ypf1,'orange')
             plt.plot(xref,yref,'r')
             plt.show()
