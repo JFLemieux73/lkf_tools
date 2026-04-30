@@ -591,6 +591,15 @@ def get_ij_intersection(intersec):
 
     return iint,jint,clean_int
 
+#-- x,y coordinates (in km) of LKF points around mid-point --
+
+def xy_coor(imid,jmid,i1,j1,nmin,nmax,DX,DY,ishift,jshift) :
+
+    print('in new function')
+
+#    j=jl+jshift-1
+#    i=il+ishift-1 
+
 #---- polyfit over intersection zone ------------------------
 
 def get_polyfit(vari, varj, xf, yf, pdeg):
@@ -1001,7 +1010,7 @@ def lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2
 #
 #------------------------------------------------------------
 
-def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt):
+def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
     
     print('working on date:')
     print(date)
@@ -1009,6 +1018,12 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt):
 #--- define parameters ---
 
     pdeg=1 # degree of polynomial for fit
+
+#--- open grid file ------
+
+    grid_nc = xr.open_dataset(grid_path)
+    DX = grid_nc['e1t']/1000.0 # km
+    DY = grid_nc['e2t']/1000.0 # km
 
 #----- open npy file -----
 
@@ -1045,6 +1060,10 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt):
         vari1=max(xf1)-min(xf1) # variation of i1 in pts used for polyfit                    
         varj1=max(yf1)-min(yf1)
 
+        #--- x,y coordinates [km] of points in region around mid-point ---
+#        if ilkf1 == 9500:
+#            xc,yc=xy_coor(imid,jmid,i1,j1,nmin,nmax,DX,DY,ishift,jshift)
+
         #--- get polyfit in region around mid-point ---
         xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xf1,yf1,pdeg) # polyfit LKF1
         
@@ -1061,7 +1080,7 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt):
         min_angle=min(anglex,angley)
 
         #--- define y=cte aligned with x axis for plotting ---
-        if ilkf1 == 95:
+        if ilkf1 == 9500:
             nmin=max(0, nmid-dlt-dlt)
             nmax=min(nmid+dlt+dlt,nb1-1)
             xref=i1[nmin:nmax+1]

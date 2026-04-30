@@ -40,8 +40,12 @@ delta=10
 
 if (grid == 'creg025'):
     grid_path=os.path.join(main_dir_grid+'/creg025pe/grid/coordinates_CREG025_LIM.nc')
+    jshift=329
+    ishift=93
 elif (grid == 'creg12'):
     grid_path=os.path.join(main_dir_grid+'/creg012pe/grid/coordinates_CREG12_ext.nc')
+    jshift=985
+    ishift=278
 else:
     print ("Wrong choice of grid")
 
@@ -61,7 +65,7 @@ for i in range(len(list_dates)) :
     print(path_filein)
     fileout=os.path.join(store_path + '/' + date0 + '_anggrid_ml' + EXP + '_delta' + dlabel +'.py')
     print(fileout)
-    lkf_angles_with_grid(date0,grid_path,path_filein,fileout,delta)
+    lkf_angles_with_grid(date0,grid_path,path_filein,fileout,delta,ishift,jshift)
 
 print('driver_lkf_angles_with_grid is done')
 print(EXP)
