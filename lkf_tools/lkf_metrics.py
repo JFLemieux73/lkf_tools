@@ -592,10 +592,27 @@ def get_ij_intersection(intersec):
     return iint,jint,clean_int
 
 #-- x,y coordinates (in km) of LKF points around mid-point --
+# the mid-point is at 0,0
+# i1,j1,ii,jj are coordinates in the algo while i,j are the real grid coord
 
-def xy_coor(imid,jmid,i1,j1,nmin,nmax,DX,DY,ishift,jshift) :
+def xy_coor(i1,j1,nmid,nmin,nmax,DX,DY,ishift,jshift) :
 
-    print('in new function')
+    for n in range(nmin,nmax+1):
+        deltai=i1[n]-i1[nmid]
+        if deltai < 0:
+            istart=int(i1[n])
+            iend=int(i1[nmid])
+            xc[n]=0.0
+            for ii in range(istart,iend+1):
+                j=j1[n]+jshift-1
+                i=ii+ishift-1 
+                xc[n]=xc[n]+
+        elif deltai = 0:
+            xc[n]=0.0
+        
+    xc=1
+    yc=1
+    return xc, yc
 
 #    j=jl+jshift-1
 #    i=il+ishift-1 
@@ -1061,8 +1078,8 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
         varj1=max(yf1)-min(yf1)
 
         #--- x,y coordinates [km] of points in region around mid-point ---
-#        if ilkf1 == 9500:
-#            xc,yc=xy_coor(imid,jmid,i1,j1,nmin,nmax,DX,DY,ishift,jshift)
+        if ilkf1 == 95:
+            xc,yc=xy_coor(i1,j1,nmid,nmin,nmax,DX,DY,ishift,jshift)
 
         #--- get polyfit in region around mid-point ---
         xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xf1,yf1,pdeg) # polyfit LKF1
