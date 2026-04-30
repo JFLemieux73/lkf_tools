@@ -592,30 +592,53 @@ def get_ij_intersection(intersec):
     return iint,jint,clean_int
 
 #-- x,y coordinates (in km) of LKF points around mid-point --
-# the mid-point is at 0,0
-# i1,j1,ii,jj are coordinates in the algo while i,j are the real grid coord
+# the mid-point is at 0,0. The i (j) axis is aligned with x (y).
 
-def xy_coor(i1,j1,nmid,nmin,nmax,DX,DY,ishift,jshift) :
+def xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
+    
+    Rearth = 6371.0  # Radius of earth in kilometers
+    j1=lkf1[:,0]
+    i1=lkf1[:,1]
+    lat=lkf1[:,3]
+    lon=lkf1[:,2]
+    m=0
+    xc=np.zeros(nmax+1-nmin)
+    yc=np.zeros(nmax+1-nmin)
+    for n in range(nmin,nmax+1) :
+        lat1=lat[n]
+        lon1=lon[n]
 
-    for n in range(nmin,nmax+1):
-        deltai=i1[n]-i1[nmid]
-        if deltai < 0:
-            istart=int(i1[n])
-            iend=int(i1[nmid])
-            xc[n]=0.0
-            for ii in range(istart,iend+1):
-                j=j1[n]+jshift-1
-                i=ii+ishift-1 
-                xc[n]=xc[n]+
-        elif deltai = 0:
-            xc[n]=0.0
+        # point on local y axis
+        j=int(j1[n])+jshift-1
+        i=int(i1[nmid])+ishift-1
+
+        lat2=latgrid[j,i]
+        lon2=longrid[j,i]
+        xc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(i1[n]-i1[nmid])
+
+        # point on local x axis
+        j=int(j1[nmid])+jshift-1
+        i=int(i1[n])+ishift-1
+
+        lat2=latgrid[j,i]
+        lon2=longrid[j,i]
+        yc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(j1[n]-j1[nmid])
         
-    xc=1
-    yc=1
-    return xc, yc
+        m=m+1
 
-#    j=jl+jshift-1
-#    i=il+ishift-1 
+    plt.plot(xc,yc, 'orange')
+    plt.show()
+#     xref=i1[nmin:nmax+1]
+#     ntp=xref.shape[0]
+#     yref=np.zeros(m)
+#     yref[:]=j1[nmid]
+#     plt.plot(xc,yc, 'c')
+#     plt.plot(xf1,yf1, '.b')
+#     plt.plot(xpf1,ypf1,'orange')
+#     plt.plot(xref,yref,'r')
+#     plt.show()
+
+    return xc, yc
 
 #---- polyfit over intersection zone ------------------------
 
@@ -1039,8 +1062,8 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
 #--- open grid file ------
 
     grid_nc = xr.open_dataset(grid_path)
-    DX = grid_nc['e1t']/1000.0 # km
-    DY = grid_nc['e2t']/1000.0 # km
+    latgrid = grid_nc['nav_lat']
+    longrid = grid_nc['nav_lon']
 
 #----- open npy file -----
 
@@ -1079,7 +1102,7 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
 
         #--- x,y coordinates [km] of points in region around mid-point ---
         if ilkf1 == 95:
-            xc,yc=xy_coor(i1,j1,nmid,nmin,nmax,DX,DY,ishift,jshift)
+            xc,yc=xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift)
 
         #--- get polyfit in region around mid-point ---
         xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xf1,yf1,pdeg) # polyfit LKF1
