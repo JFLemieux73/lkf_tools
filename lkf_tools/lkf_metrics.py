@@ -10,6 +10,10 @@ from pathlib import Path
 from shapely.geometry import LineString
 from lkf_tools.dataset import *
 
+#---- Global parameters -------------------------------------
+
+Rearth = 6371.0  # Radius of earth in kilometers
+
 #----  lkf_detect -------------------------------------------
 #
 # Prepares netcdf outputs to be used by Nils' LKF
@@ -596,7 +600,6 @@ def get_ij_intersection(intersec):
 
 def xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
     
-    Rearth = 6371.0  # Radius of earth in kilometers
     j1=lkf1[:,0]
     i1=lkf1[:,1]
     lat=lkf1[:,3]
@@ -626,17 +629,8 @@ def xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
         
         m=m+1
 
-    plt.plot(xc,yc, 'orange')
-    plt.show()
-#     xref=i1[nmin:nmax+1]
-#     ntp=xref.shape[0]
-#     yref=np.zeros(m)
-#     yref[:]=j1[nmid]
-#     plt.plot(xc,yc, 'c')
-#     plt.plot(xf1,yf1, '.b')
-#     plt.plot(xpf1,ypf1,'orange')
-#     plt.plot(xref,yref,'r')
-#     plt.show()
+#    plt.plot(xc,yc, 'orange')
+#    plt.show()
 
     return xc, yc
 
@@ -1187,10 +1181,6 @@ def lkf_length(date,creggrid,path_filein,fileout):
     
     print('working on date:')
     print(date)
-
-#--- define parameters ---
-
-    Rearth = 6371.0  # Radius of earth in kilometers
 
 #----- open npy file -----
 
