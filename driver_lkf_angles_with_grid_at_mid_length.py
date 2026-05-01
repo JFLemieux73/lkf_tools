@@ -29,7 +29,7 @@ grid='creg12' # creg025 or creg12
 EXP='run_eg1p75_ef1p75'
 
 main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
-main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS/'
+main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS'
 SDATE='20050425'
 EDATE='20050425'
 FREQ='24H'

@@ -679,7 +679,7 @@ def extra_pt_end(im1, im2, jm1, jm2):
 #
 #------------------------------------------------------------
 
-def lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2,dlt):
+def lkf_pairs_and_angles(date,path_filein,data_pathnc,fileout1,fileout2,dlt,grid_path,ishift,jshift):
     
     print('working on date:')
     print(date)
@@ -699,44 +699,35 @@ def lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2
     creg_nc = xr.open_dataset(data_pathnc)
     vort = creg_nc.vort[0,:,:]/100.0
 
-#----- shift indices ---------------------
+#--- open grid file -----------------------------
 
-# arrays (i,j) are read in python as (j,i)
+    grid_nc = xr.open_dataset(grid_path)
+    latgrid = grid_nc['nav_lat']
+    longrid = grid_nc['nav_lon']
 
-# il y presentement un bug dans les sorties des j,i. 
-# les indices ne correspondent pas aux indices de la grille native.
-# dans ce code: jl,il indices des LKFs (avec bug) et j,i indices grille native
-# jl=lkf[:,0] et il=lkf[:,1].
-# Voir courriel de Nils du 4 oct 2022. Pour corriger les i,j je dois faire:
-# i = lkf[:,0] + lkf_data.index_x[0][0]
-# j = lkf[:,1] + lkf_data.index_y[0][0]
+#*** NOTE OF SHIFTED INDICES ***
 
-# pour creg025:
+# Zone of lkf detection in detection algorithm is 
+# reduced for comp. efficiency. To find the true 
+# indices on the native grid (e.g. CREG grid), 
+# indices in a detected lkf need to be shifted by 
+# constant values that depend on the grid. j,i on
+# the native grid are
+# 
+# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
+# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# for creg025:
 # lkf_data.index_x[0][0]=93
 # lkf_data.index_y[0][0]=329
 # 
-# pour creg12:
+# for creg12:
 # lkf_data.index_x[0][0]=278
 # lkf_data.index_y[0][0]=985
-
-# je pense que ce que Nils a écrit n'est pas ok. Ça devrait être:
-
-# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
-# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
-
-    if (creggrid == 'creg025'):
-        nx=528
-        ny=735
-        jshift=329
-        ishift=93
-    elif (creggrid == 'creg12'):
-        nx=1580
-        ny=2198
-        jshift=985
-        ishift=278
-    else:
-        print ("Wrong choice of grid")
-
+#
+# ishift = lkf_data.index_x[0][0]
+# jshift = lkf_data.index_y[0][0]
+#
 #---- create empty lists ----------------------
 
     ilkf1lt=[] # lt for list
