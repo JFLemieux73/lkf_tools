@@ -831,21 +831,21 @@ def lkf_pairs_and_angles(date,path_filein,data_pathnc,fileout1,fileout2,dlt,grid
                         #--- define part of array close to intersec for polyfit
                         min_ind1=max(0, index1-dlt)
                         max_ind1=min(index1+dlt,nb1-1)
-                        xf1=i1ext[min_ind1:max_ind1+1]
-                        yf1=j1ext[min_ind1:max_ind1+1]
-                        vari1=max(xf1)-min(xf1) # variation of i1 in pts used for polyfit                    
-                        varj1=max(yf1)-min(yf1)
+                        if1=i1ext[min_ind1:max_ind1+1]
+                        jf1=j1ext[min_ind1:max_ind1+1]
+                        vari1=max(if1)-min(if1) # variation of i1 in pts used for polyfit                    
+                        varj1=max(jf1)-min(jf1)
 
-                        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xf1,yf1,pdeg) # polyfit LKF1
+                        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,if1,jf1,pdeg) # polyfit LKF1
       
                         min_ind2=max(0, index2-dlt)
                         max_ind2=min(index2+dlt,nb2-1)
-                        xf2=i2ext[min_ind2:max_ind2+1]
-                        yf2=j2ext[min_ind2:max_ind2+1]
-                        vari2=max(xf2)-min(xf2) # variation of i2 in pts used for polyfit
-                        varj2=max(yf2)-min(yf2)
+                        if2=i2ext[min_ind2:max_ind2+1]
+                        jf2=j2ext[min_ind2:max_ind2+1]
+                        vari2=max(if2)-min(if2) # variation of i2 in pts used for polyfit
+                        varj2=max(jf2)-min(jf2)
 
-                        xpf2,ypf2,ptype2,coeff2=get_polyfit(vari2,varj2,xf2,yf2,pdeg) # polyfit LKF2
+                        xpf2,ypf2,ptype2,coeff2=get_polyfit(vari2,varj2,if2,jf2,pdeg) # polyfit LKF2
                         
                         #--- identify if intersection is X, T or Y
                         int_type=identify_int(index1,nb1,index2,nb2)
