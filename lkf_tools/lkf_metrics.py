@@ -598,7 +598,7 @@ def get_ij_intersection(intersec):
 #-- x,y coordinates (in km) of LKF points around mid-point --
 # the mid-point is at 0,0. The i (j) axis is aligned with x (y).
 
-def xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
+def xy_coor_old(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
     
     j1=lkf1[:,0]
     i1=lkf1[:,1]
@@ -636,45 +636,47 @@ def xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
 
     return xc, yc
 
-def xy_coor_2(ilf,jlf,index,min_ind,max_ind,latgrid,longrid,ishift,jshift) :
+def xy_coor(ilf,jlf,index,min_ind,max_ind,latgrid,longrid,ishift,jshift) :
     
+    # ilf and jlf are subsets of iext and jext. iext and jext contain
+    # the nb coord of the lkf. ilf and jlf have typically size of 2*dlt+1.
+    # here the indices of ilf and jlf are (usually) 0...2*dlt. The index of 
+    # of the intersection point between 0 and 2*dlt is nint. 
     xc=np.zeros(max_ind+1-min_ind)
     yc=np.zeros(max_ind+1-min_ind)
-    #print(index,min_ind,max_ind)
+    nint=index-min_ind # n value of int point
     m=0
-    for n in range(min_ind,max_ind+1) : 
+    for n in range(max_ind+1-min_ind) : 
 
         # lat,lon of lkf point
         j=int(jlf[n])+jshift-1
         i=int(ilf[n])+ishift-1
         lat1=latgrid[j,i]
         lon1=longrid[j,i]
-        print('a1')
 
         # point of local y axis converted to real grid coor
         j=int(jlf[n])+jshift-1
-        print('a1b',index) # bug ici...doit etre changer pour genre index - min_ind
-        i=int(ilf[index])+ishift-1
-        print('a1c')
+        i=int(ilf[nint])+ishift-1
         lat2=latgrid[j,i]
         lon2=longrid[j,i]
-        print('a2')
+
         # calc distance between local y axis and lkf point
-        xc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(ilf[n]-ilf[index])
+        xc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(ilf[n]-ilf[nint])
 
         # point on local x axis converted to real grid coor
-        j=int(jlf[index])+jshift-1
+        j=int(jlf[nint])+jshift-1
         i=int(ilf[n])+ishift-1
         lat2=latgrid[j,i]
         lon2=longrid[j,i]
 
         # calc distance between local x axis and lkf point
-        yc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(jlf[n]-j1[index])
+        yc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(jlf[n]-jlf[nint])
         
         m=m+1
 
-    plt.plot(xc,yc, 'orange')
-    plt.show()
+#    plt.plot(xc,yc, 'orange')
+#    plt.plot(ilf,jlf, 'orange')
+#    plt.show()
 
     return xc, yc
 
@@ -879,8 +881,8 @@ def lkf_pairs_and_angles(date,path_filein,data_pathnc,fileout1,fileout2,dlt,grid
                         varj1=max(jf1)-min(jf1)
                         
                         #--- x,y coordinates [km] of points in region around mid-point ---
-#                        if ilkf1 == 68 and ilkf2 == 74:
-#                            xc,yc=xy_coor_2(if1,jf1,index1,min_ind1,max_ind1,latgrid,longrid,ishift,jshift)
+                        if ilkf1 == 68 and ilkf2 == 74:
+                            xc,yc=xy_coor(if1,jf1,index1,min_ind1,max_ind1,latgrid,longrid,ishift,jshift)
 
                         xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,if1,jf1,pdeg) # polyfit LKF1
       
@@ -1134,7 +1136,7 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
         varj1=max(jf1)-min(jf1)
 
         #--- x,y coordinates [km] of points in region around mid-point ---
-        xc,yc=xy_coor(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift)
+        xc,yc=xy_coor_old(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift)
 
         #--- get polyfit in region around mid-point ---
 #        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,if1,jf1,pdeg) # polyfit LKF1
