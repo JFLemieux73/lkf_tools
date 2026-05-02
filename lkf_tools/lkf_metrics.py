@@ -674,8 +674,10 @@ def xy_coor(ilf,jlf,index,min_ind,max_ind,latgrid,longrid,ishift,jshift) :
         
         m=m+1
 
+#    plt.figure(1)
 #    plt.plot(xc,yc, 'orange')
-#    plt.plot(ilf,jlf, 'orange')
+#    plt.figure(2)
+#    plt.plot(ilf,jlf, 'blue')
 #    plt.show()
 
     return xc, yc
@@ -881,10 +883,10 @@ def lkf_pairs_and_angles(date,path_filein,data_pathnc,fileout1,fileout2,dlt,grid
                         varj1=max(jf1)-min(jf1)
                         
                         #--- x,y coordinates [km] of points in region around mid-point ---
-                        if ilkf1 == 68 and ilkf2 == 74:
-                            xc,yc=xy_coor(if1,jf1,index1,min_ind1,max_ind1,latgrid,longrid,ishift,jshift)
-
-                        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,if1,jf1,pdeg) # polyfit LKF1
+                        xc1,yc1=xy_coor(if1,jf1,index1,min_ind1,max_ind1,latgrid,longrid,ishift,jshift)
+                        #--- polyfit LKF1
+                        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xc1,yc1,pdeg)
+                        #xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,if1,jf1,pdeg)
       
                         min_ind2=max(0, index2-dlt)
                         max_ind2=min(index2+dlt,nb2-1)
@@ -893,14 +895,18 @@ def lkf_pairs_and_angles(date,path_filein,data_pathnc,fileout1,fileout2,dlt,grid
                         vari2=max(if2)-min(if2) # variation of i2 in pts used for polyfit
                         varj2=max(jf2)-min(jf2)
 
-                        xpf2,ypf2,ptype2,coeff2=get_polyfit(vari2,varj2,if2,jf2,pdeg) # polyfit LKF2
+                        #--- x,y coordinates [km] of points in region around mid-point ---
+                        xc2,yc2=xy_coor(if2,jf2,index2,min_ind2,max_ind2,latgrid,longrid,ishift,jshift)
+                        #--- polyfit LKF2
+                        xpf2,ypf2,ptype2,coeff2=get_polyfit(vari2,varj2,xc2,yc2,pdeg)
+                        #xpf2,ypf2,ptype2,coeff2=get_polyfit(vari2,varj2,if2,jf2,pdeg)
                         
                         #--- identify if intersection is X, T or Y
                         int_type=identify_int(index1,nb1,index2,nb2)
                         
                         #--- calc intersection angle (returns acute angle)
                         int_angle=calc_int_angle(ptype1,coeff1,ptype2,coeff2)
-                        
+
                         #--- lkf1 calc angle with respect to x (or i) axis ---
                         ptypeTP=1 #y=mx+b=b
                         coeffTP=np.zeros(2)  #coeffTP[0]=m=0, coeffTP[1]=0 #not used
