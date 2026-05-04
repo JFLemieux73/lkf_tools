@@ -66,18 +66,28 @@ def lkf_detect(date, creggrid, vortflag, grid_path, data_path, store_path, fileo
 
 #---- process data and detect LKFs ---
 
-# il y presentement un bug dans les sorties des i,j. i est lkf[:,0] et j lkf[:,1].
-# Voir courriel de Nils du 4 oct 2022. Pour corriger les i,j je dois faire:
-# i = lkf[:,0] + lkf_data.index_x[0][0]
-# j = lkf[:,1] + lkf_data.index_y[0][0]
+#*** NOTE OF SHIFTED INDICES ***
+
+# Zone of lkf detection in detection algorithm is 
+# reduced for comp. efficiency. To find the true 
+# indices on the native grid (e.g. CREG grid), 
+# indices in a detected lkf need to be shifted by 
+# constant values that depend on the grid. j,i on
+# the native grid are
+# 
+# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
+# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
 #
-# pour creg025:
+# for creg025:
 # lkf_data.index_x[0][0]=93
 # lkf_data.index_y[0][0]=329
 # 
-# pour creg12:
+# for creg12:
 # lkf_data.index_x[0][0]=278
 # lkf_data.index_y[0][0]=985
+#
+# ishift = lkf_data.index_x[0][0]
+# jshift = lkf_data.index_y[0][0]
 
     print('call process_dataset')
 
@@ -157,30 +167,28 @@ def lkf_calc_width(date,creggrid,path_filedist,path_filein,path_fileout,data_pat
 
     dist = np.load(path_filedist,allow_pickle=True)
 
-#----- shift indices ---------------------
+#*** NOTE OF SHIFTED INDICES ***
 
-# arrays (i,j) are read in python as (j,i)
-
-# il y presentement un bug dans les sorties des j,i. 
-# les indices ne correspondent pas aux indices de la grille native.
-# dans ce code: jl,il indices des LKFs (avec bug) et j,i indices grille native
-# jl=lkf[:,0] et il=lkf[:,1].
-# Voir courriel de Nils du 4 oct 2022. Pour corriger les i,j je dois faire:
-# i = lkf[:,0] + lkf_data.index_x[0][0]
-# j = lkf[:,1] + lkf_data.index_y[0][0]
-
-# pour creg025:
+# Zone of lkf detection in detection algorithm is 
+# reduced for comp. efficiency. To find the true 
+# indices on the native grid (e.g. CREG grid), 
+# indices in a detected lkf need to be shifted by 
+# constant values that depend on the grid. j,i on
+# the native grid are
+# 
+# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
+# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# for creg025:
 # lkf_data.index_x[0][0]=93
 # lkf_data.index_y[0][0]=329
 # 
-# pour creg12:
+# for creg12:
 # lkf_data.index_x[0][0]=278
 # lkf_data.index_y[0][0]=985
-
-# je pense que ce que Nils a écrit n'est pas ok. Ça devrait être:
-
-# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
-# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# ishift = lkf_data.index_x[0][0]
+# jshift = lkf_data.index_y[0][0]
 
     if (creggrid == 'creg025'):
         jshift=329
@@ -373,30 +381,28 @@ def lkf_density(date,creggrid,path_filein):
     lkfs = np.load(path_filein,allow_pickle=True)
     print(lkfs.shape)
 
-#----- shift indices ---------------------
+#*** NOTE OF SHIFTED INDICES ***
 
-# arrays (i,j) are read in python as (j,i)
-
-# il y presentement un bug dans les sorties des j,i. 
-# les indices ne correspondent pas aux indices de la grille native.
-# dans ce code: jl,il indices des LKFs (avec bug) et j,i indices grille native
-# jl=lkf[:,0] et il=lkf[:,1].
-# Voir courriel de Nils du 4 oct 2022. Pour corriger les i,j je dois faire:
-# i = lkf[:,0] + lkf_data.index_x[0][0]
-# j = lkf[:,1] + lkf_data.index_y[0][0]
-
-# pour creg025:
+# Zone of lkf detection in detection algorithm is 
+# reduced for comp. efficiency. To find the true 
+# indices on the native grid (e.g. CREG grid), 
+# indices in a detected lkf need to be shifted by 
+# constant values that depend on the grid. j,i on
+# the native grid are
+# 
+# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
+# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# for creg025:
 # lkf_data.index_x[0][0]=93
 # lkf_data.index_y[0][0]=329
 # 
-# pour creg12:
+# for creg12:
 # lkf_data.index_x[0][0]=278
 # lkf_data.index_y[0][0]=985
-
-# je pense que ce que Nils a écrit n'est pas ok. Ça devrait être:
-
-# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
-# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# ishift = lkf_data.index_x[0][0]
+# jshift = lkf_data.index_y[0][0]
 
     if (creggrid == 'creg025'):
         nx=528
