@@ -1127,10 +1127,9 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
         angley=calc_int_angle(ptype1,coeff1,ptype2,coeff2)
 
         min_angle=min(anglex,angley)
-        print(ilkf1,anglex,angley,min_angle)
 
         #--- define y=cte aligned with x axis for plotting ---
-        if ilkf1 == 950:
+        if ilkf1 == 9500:
             nmin=max(0, nmid-dlt-dlt)
             nmax=min(nmid+dlt+dlt,nb1-1)
             xref=i1[nmin:nmax+1]
