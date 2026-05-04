@@ -10,6 +10,10 @@ from pathlib import Path
 from shapely.geometry import LineString
 from lkf_tools.dataset import *
 
+#---- Global parameters -------------------------------------
+
+Rearth = 6371.0  # Radius of earth in kilometers
+
 #----  lkf_detect -------------------------------------------
 #
 # Prepares netcdf outputs to be used by Nils' LKF
@@ -62,18 +66,28 @@ def lkf_detect(date, creggrid, vortflag, grid_path, data_path, store_path, fileo
 
 #---- process data and detect LKFs ---
 
-# il y presentement un bug dans les sorties des i,j. i est lkf[:,0] et j lkf[:,1].
-# Voir courriel de Nils du 4 oct 2022. Pour corriger les i,j je dois faire:
-# i = lkf[:,0] + lkf_data.index_x[0][0]
-# j = lkf[:,1] + lkf_data.index_y[0][0]
+#*** NOTE OF SHIFTED INDICES ***
+
+# Zone of lkf detection in detection algorithm is 
+# reduced for comp. efficiency. To find the true 
+# indices on the native grid (e.g. CREG grid), 
+# indices in a detected lkf need to be shifted by 
+# constant values that depend on the grid. j,i on
+# the native grid are
+# 
+# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
+# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
 #
-# pour creg025:
+# for creg025:
 # lkf_data.index_x[0][0]=93
 # lkf_data.index_y[0][0]=329
 # 
-# pour creg12:
+# for creg12:
 # lkf_data.index_x[0][0]=278
 # lkf_data.index_y[0][0]=985
+#
+# ishift = lkf_data.index_x[0][0]
+# jshift = lkf_data.index_y[0][0]
 
     print('call process_dataset')
 
@@ -153,30 +167,28 @@ def lkf_calc_width(date,creggrid,path_filedist,path_filein,path_fileout,data_pat
 
     dist = np.load(path_filedist,allow_pickle=True)
 
-#----- shift indices ---------------------
+#*** NOTE OF SHIFTED INDICES ***
 
-# arrays (i,j) are read in python as (j,i)
-
-# il y presentement un bug dans les sorties des j,i. 
-# les indices ne correspondent pas aux indices de la grille native.
-# dans ce code: jl,il indices des LKFs (avec bug) et j,i indices grille native
-# jl=lkf[:,0] et il=lkf[:,1].
-# Voir courriel de Nils du 4 oct 2022. Pour corriger les i,j je dois faire:
-# i = lkf[:,0] + lkf_data.index_x[0][0]
-# j = lkf[:,1] + lkf_data.index_y[0][0]
-
-# pour creg025:
+# Zone of lkf detection in detection algorithm is 
+# reduced for comp. efficiency. To find the true 
+# indices on the native grid (e.g. CREG grid), 
+# indices in a detected lkf need to be shifted by 
+# constant values that depend on the grid. j,i on
+# the native grid are
+# 
+# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
+# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# for creg025:
 # lkf_data.index_x[0][0]=93
 # lkf_data.index_y[0][0]=329
 # 
-# pour creg12:
+# for creg12:
 # lkf_data.index_x[0][0]=278
 # lkf_data.index_y[0][0]=985
-
-# je pense que ce que Nils a écrit n'est pas ok. Ça devrait être:
-
-# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
-# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# ishift = lkf_data.index_x[0][0]
+# jshift = lkf_data.index_y[0][0]
 
     if (creggrid == 'creg025'):
         jshift=329
@@ -369,30 +381,28 @@ def lkf_density(date,creggrid,path_filein):
     lkfs = np.load(path_filein,allow_pickle=True)
     print(lkfs.shape)
 
-#----- shift indices ---------------------
+#*** NOTE OF SHIFTED INDICES ***
 
-# arrays (i,j) are read in python as (j,i)
-
-# il y presentement un bug dans les sorties des j,i. 
-# les indices ne correspondent pas aux indices de la grille native.
-# dans ce code: jl,il indices des LKFs (avec bug) et j,i indices grille native
-# jl=lkf[:,0] et il=lkf[:,1].
-# Voir courriel de Nils du 4 oct 2022. Pour corriger les i,j je dois faire:
-# i = lkf[:,0] + lkf_data.index_x[0][0]
-# j = lkf[:,1] + lkf_data.index_y[0][0]
-
-# pour creg025:
+# Zone of lkf detection in detection algorithm is 
+# reduced for comp. efficiency. To find the true 
+# indices on the native grid (e.g. CREG grid), 
+# indices in a detected lkf need to be shifted by 
+# constant values that depend on the grid. j,i on
+# the native grid are
+# 
+# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
+# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# for creg025:
 # lkf_data.index_x[0][0]=93
 # lkf_data.index_y[0][0]=329
 # 
-# pour creg12:
+# for creg12:
 # lkf_data.index_x[0][0]=278
 # lkf_data.index_y[0][0]=985
-
-# je pense que ce que Nils a écrit n'est pas ok. Ça devrait être:
-
-# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
-# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# ishift = lkf_data.index_x[0][0]
+# jshift = lkf_data.index_y[0][0]
 
     if (creggrid == 'creg025'):
         nx=528
@@ -591,6 +601,93 @@ def get_ij_intersection(intersec):
 
     return iint,jint,clean_int
 
+#-- x,y coordinates (in km) of LKF points around mid-point --
+# the mid-point is at 0,0. The i (j) axis is aligned with x (y).
+
+def xy_coor_old(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
+    
+    j1=lkf1[:,0]
+    i1=lkf1[:,1]
+    lat=lkf1[:,3]
+    lon=lkf1[:,2]
+    m=0
+    xc=np.zeros(nmax+1-nmin)
+    yc=np.zeros(nmax+1-nmin)
+    for n in range(nmin,nmax+1) :
+        lat1=lat[n]
+        lon1=lon[n]
+
+        # point on local y axis
+        j=int(j1[n])+jshift-1
+        i=int(i1[nmid])+ishift-1
+
+        lat2=latgrid[j,i]
+        lon2=longrid[j,i]
+        # calc distance between y axis and lkf point
+        xc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(i1[n]-i1[nmid])
+
+        # point on local x axis
+        j=int(j1[nmid])+jshift-1
+        i=int(i1[n])+ishift-1
+
+        lat2=latgrid[j,i]
+        lon2=longrid[j,i]
+        # calc distance between x axis and lkf point
+        yc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(j1[n]-j1[nmid])
+        
+        m=m+1
+
+#    plt.plot(xc,yc, 'orange')
+#    plt.show()
+
+    return xc, yc
+
+def xy_coor(ilf,jlf,index,min_ind,max_ind,latgrid,longrid,ishift,jshift) :
+    
+    # ilf and jlf are subsets of iext and jext. iext and jext contain
+    # the nb coord of the lkf. ilf and jlf have typically size of 2*dlt+1.
+    # here the indices of ilf and jlf are (usually) 0...2*dlt. The index of 
+    # of the intersection point between 0 and 2*dlt is nint. 
+    xc=np.zeros(max_ind+1-min_ind)
+    yc=np.zeros(max_ind+1-min_ind)
+    nint=index-min_ind # n value of int point
+    m=0
+    for n in range(max_ind+1-min_ind) : 
+
+        # lat,lon of lkf point
+        j=int(jlf[n])+jshift-1
+        i=int(ilf[n])+ishift-1
+        lat1=latgrid[j,i]
+        lon1=longrid[j,i]
+
+        # point of local y axis converted to real grid coor
+        j=int(jlf[n])+jshift-1
+        i=int(ilf[nint])+ishift-1
+        lat2=latgrid[j,i]
+        lon2=longrid[j,i]
+
+        # calc distance between local y axis and lkf point
+        xc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(ilf[n]-ilf[nint])
+
+        # point on local x axis converted to real grid coor
+        j=int(jlf[nint])+jshift-1
+        i=int(ilf[n])+ishift-1
+        lat2=latgrid[j,i]
+        lon2=longrid[j,i]
+
+        # calc distance between local x axis and lkf point
+        yc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(jlf[n]-jlf[nint])
+        
+        m=m+1
+
+#    plt.figure(1)
+#    plt.plot(xc,yc, 'orange')
+#    plt.figure(2)
+#    plt.plot(ilf,jlf, 'blue')
+#    plt.show()
+
+    return xc, yc
+
 #---- polyfit over intersection zone ------------------------
 
 def get_polyfit(vari, varj, xf, yf, pdeg):
@@ -634,7 +731,7 @@ def extra_pt_end(im1, im2, jm1, jm2):
 #
 #------------------------------------------------------------
 
-def lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2,dlt):
+def lkf_pairs_and_angles(date,path_filein,data_pathnc,fileout1,fileout2,dlt,grid_path,ishift,jshift):
     
     print('working on date:')
     print(date)
@@ -654,44 +751,35 @@ def lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2
     creg_nc = xr.open_dataset(data_pathnc)
     vort = creg_nc.vort[0,:,:]/100.0
 
-#----- shift indices ---------------------
+#--- open grid file -----------------------------
 
-# arrays (i,j) are read in python as (j,i)
+    grid_nc = xr.open_dataset(grid_path)
+    latgrid = grid_nc['nav_lat']
+    longrid = grid_nc['nav_lon']
 
-# il y presentement un bug dans les sorties des j,i. 
-# les indices ne correspondent pas aux indices de la grille native.
-# dans ce code: jl,il indices des LKFs (avec bug) et j,i indices grille native
-# jl=lkf[:,0] et il=lkf[:,1].
-# Voir courriel de Nils du 4 oct 2022. Pour corriger les i,j je dois faire:
-# i = lkf[:,0] + lkf_data.index_x[0][0]
-# j = lkf[:,1] + lkf_data.index_y[0][0]
+#*** NOTE OF SHIFTED INDICES ***
 
-# pour creg025:
+# Zone of lkf detection in detection algorithm is 
+# reduced for comp. efficiency. To find the true 
+# indices on the native grid (e.g. CREG grid), 
+# indices in a detected lkf need to be shifted by 
+# constant values that depend on the grid. j,i on
+# the native grid are
+# 
+# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
+# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
+#
+# for creg025:
 # lkf_data.index_x[0][0]=93
 # lkf_data.index_y[0][0]=329
 # 
-# pour creg12:
+# for creg12:
 # lkf_data.index_x[0][0]=278
 # lkf_data.index_y[0][0]=985
-
-# je pense que ce que Nils a écrit n'est pas ok. Ça devrait être:
-
-# j = lkf[:,0] + lkf_data.index_y[0][0] - 1
-# i = lkf[:,1] + lkf_data.index_x[0][0] - 1
-
-    if (creggrid == 'creg025'):
-        nx=528
-        ny=735
-        jshift=329
-        ishift=93
-    elif (creggrid == 'creg12'):
-        nx=1580
-        ny=2198
-        jshift=985
-        ishift=278
-    else:
-        print ("Wrong choice of grid")
-
+#
+# ishift = lkf_data.index_x[0][0]
+# jshift = lkf_data.index_y[0][0]
+#
 #---- create empty lists ----------------------
 
     ilkf1lt=[] # lt for list
@@ -795,28 +883,36 @@ def lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2
                         #--- define part of array close to intersec for polyfit
                         min_ind1=max(0, index1-dlt)
                         max_ind1=min(index1+dlt,nb1-1)
-                        xf1=i1ext[min_ind1:max_ind1+1]
-                        yf1=j1ext[min_ind1:max_ind1+1]
-                        vari1=max(xf1)-min(xf1) # variation of i1 in pts used for polyfit                    
-                        varj1=max(yf1)-min(yf1)
-
-                        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xf1,yf1,pdeg) # polyfit LKF1
+                        if1=i1ext[min_ind1:max_ind1+1]
+                        jf1=j1ext[min_ind1:max_ind1+1]
+                        vari1=max(if1)-min(if1) # variation of i1 in pts used for polyfit                    
+                        varj1=max(jf1)-min(jf1)
+                        
+                        #--- x,y coordinates [km] of points in region around mid-point ---
+                        xc1,yc1=xy_coor(if1,jf1,index1,min_ind1,max_ind1,latgrid,longrid,ishift,jshift)
+                        #--- polyfit LKF1
+                        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xc1,yc1,pdeg)
+                        #xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,if1,jf1,pdeg)
       
                         min_ind2=max(0, index2-dlt)
                         max_ind2=min(index2+dlt,nb2-1)
-                        xf2=i2ext[min_ind2:max_ind2+1]
-                        yf2=j2ext[min_ind2:max_ind2+1]
-                        vari2=max(xf2)-min(xf2) # variation of i2 in pts used for polyfit
-                        varj2=max(yf2)-min(yf2)
+                        if2=i2ext[min_ind2:max_ind2+1]
+                        jf2=j2ext[min_ind2:max_ind2+1]
+                        vari2=max(if2)-min(if2) # variation of i2 in pts used for polyfit
+                        varj2=max(jf2)-min(jf2)
 
-                        xpf2,ypf2,ptype2,coeff2=get_polyfit(vari2,varj2,xf2,yf2,pdeg) # polyfit LKF2
+                        #--- x,y coordinates [km] of points in region around mid-point ---
+                        xc2,yc2=xy_coor(if2,jf2,index2,min_ind2,max_ind2,latgrid,longrid,ishift,jshift)
+                        #--- polyfit LKF2
+                        xpf2,ypf2,ptype2,coeff2=get_polyfit(vari2,varj2,xc2,yc2,pdeg)
+                        #xpf2,ypf2,ptype2,coeff2=get_polyfit(vari2,varj2,if2,jf2,pdeg)
                         
                         #--- identify if intersection is X, T or Y
                         int_type=identify_int(index1,nb1,index2,nb2)
                         
                         #--- calc intersection angle (returns acute angle)
                         int_angle=calc_int_angle(ptype1,coeff1,ptype2,coeff2)
-                        
+
                         #--- lkf1 calc angle with respect to x (or i) axis ---
                         ptypeTP=1 #y=mx+b=b
                         coeffTP=np.zeros(2)  #coeffTP[0]=m=0, coeffTP[1]=0 #not used
@@ -1001,7 +1097,7 @@ def lkf_pairs_and_angles(date,creggrid,path_filein,data_pathnc,fileout1,fileout2
 #
 #------------------------------------------------------------
 
-def lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
+def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
     
     print('working on date:')
     print(date)
@@ -1009,6 +1105,12 @@ def lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
 #--- define parameters ---
 
     pdeg=1 # degree of polynomial for fit
+
+#--- open grid file ------
+
+    grid_nc = xr.open_dataset(grid_path)
+    latgrid = grid_nc['nav_lat']
+    longrid = grid_nc['nav_lon']
 
 #----- open npy file -----
 
@@ -1037,16 +1139,20 @@ def lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
         nmin=max(0, nmid-dlt)
         nmax=min(nmid+dlt,nb1-1)
 
-        #--- form x(or i) and y(or j) vectors for polyfit ---
-        xf1=i1[nmin:nmax+1] # note that xf1=i1[n1,n2] uses in fact i1[n1,n2-1]
-        yf1=j1[nmin:nmax+1]
+        #--- form i and y vectors in region for the polyfit ---
+        if1=i1[nmin:nmax+1] # note that if1=i1[n1,n2] uses in fact i1[n1,n2-1]
+        jf1=j1[nmin:nmax+1]
         
-        #--- var of xf1 and yf1 vectors to decide type (y=f(x) or =f(y) polyfit ---
-        vari1=max(xf1)-min(xf1) # variation of i1 in pts used for polyfit                    
-        varj1=max(yf1)-min(yf1)
+        #--- var of if1 and jf1 vectors to decide type (y=f(x) or =f(y) polyfit ---
+        vari1=max(if1)-min(if1) # variation of i1 in pts used for polyfit                    
+        varj1=max(jf1)-min(jf1)
+
+        #--- x,y coordinates [km] of points in region around mid-point ---
+        xc,yc=xy_coor_old(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift)
 
         #--- get polyfit in region around mid-point ---
-        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xf1,yf1,pdeg) # polyfit LKF1
+#        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,if1,jf1,pdeg) # polyfit LKF1
+        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xc,yc,pdeg) # polyfit LKF1
         
         #--- calc angle with respect to x (or i) axis ---
         ptype2=1 #y=mx+b=b
@@ -1061,7 +1167,7 @@ def lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
         min_angle=min(anglex,angley)
 
         #--- define y=cte aligned with x axis for plotting ---
-        if ilkf1 == 17588:
+        if ilkf1 == 950:
             nmin=max(0, nmid-dlt-dlt)
             nmax=min(nmid+dlt+dlt,nb1-1)
             xref=i1[nmin:nmax+1]
@@ -1069,7 +1175,7 @@ def lkf_angles_with_grid(date,creggrid,path_filein,fileout,dlt):
             yref=np.zeros(ntp)
             yref[:]=j1[nmid]
             plt.plot(i1,j1, 'c')
-            plt.plot(xf1,yf1, '.b')
+            plt.plot(if1,jf1, '.b')
             plt.plot(xpf1,ypf1,'orange')
             plt.plot(xref,yref,'r')
             plt.show()
@@ -1128,10 +1234,6 @@ def lkf_length(date,creggrid,path_filein,fileout):
     
     print('working on date:')
     print(date)
-
-#--- define parameters ---
-
-    Rearth = 6371.0  # Radius of earth in kilometers
 
 #----- open npy file -----
 

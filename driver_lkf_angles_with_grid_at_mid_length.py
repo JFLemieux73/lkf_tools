@@ -25,17 +25,29 @@ import calendar
 # Important: given midpoint mp with coordinates (imp,jmp), polyfit on LKF is done for the region:
 # mp-delta to mp + delta. 
 
-creggrid='creg12' # creg025 or creg12
+grid='creg12' # creg025 or creg12
 EXP='run_eg1p75_ef1p75'
 
 main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
+main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS'
 SDATE='20050425'
-EDATE='20050426'
+EDATE='20050425'
 FREQ='24H'
 suffix='0000_iceh_inst'
 delta=10 
 
 #-----------------------------------------
+
+if (grid == 'creg025'):
+    grid_path=os.path.join(main_dir_grid+'/creg025pe/grid/coordinates_CREG025_LIM.nc')
+    jshift=329
+    ishift=93
+elif (grid == 'creg12'):
+    grid_path=os.path.join(main_dir_grid+'/creg012pe/grid/coordinates_CREG12_ext.nc')
+    jshift=985
+    ishift=278
+else:
+    print ("Wrong choice of grid")
 
 dlabel=str(delta)
 
@@ -53,7 +65,7 @@ for i in range(len(list_dates)) :
     print(path_filein)
     fileout=os.path.join(store_path + '/' + date0 + '_anggrid_ml' + EXP + '_delta' + dlabel +'.py')
     print(fileout)
-    lkf_angles_with_grid(date0,creggrid,path_filein,fileout,delta)
+    lkf_angles_with_grid(date0,grid_path,path_filein,fileout,delta,ishift,jshift)
 
 print('driver_lkf_angles_with_grid is done')
 print(EXP)

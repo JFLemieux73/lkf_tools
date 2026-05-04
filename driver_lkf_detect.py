@@ -37,7 +37,7 @@ kvalue=7 # value for kernel
 produce_plot=True
 pack_ice_mask=False
 SDATE='20050425'
-EDATE='20050426'
+EDATE='20050425'
 FREQ='24H'
 suffix='0000_iceh_inst'
 

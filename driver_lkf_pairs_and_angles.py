@@ -25,18 +25,30 @@ import calendar
 
 # Important: given intersection point ip with coordinates (ip,jp), polyfit on LKF is done for the region ip-delta to ip + delta. 
 
-creggrid='creg12' # creg025 or creg12
+grid='creg12' # creg025 or creg12
 EXP='run_eg1p75_ef1p75'
 
 main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
 main_dirnc='/home/jfl001/data/TESTlkf'
+main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS'
 SDATE='20050425'
-EDATE='20050426'
+EDATE='20050425'
 FREQ='24H'
 suffix='0000_iceh_inst'
 delta=10
 
 #-----------------------------------------
+
+if (grid == 'creg025'):
+    grid_path=os.path.join(main_dir_grid+'/creg025pe/grid/coordinates_CREG025_LIM.nc')
+    jshift=329
+    ishift=93
+elif (grid == 'creg12'):
+    grid_path=os.path.join(main_dir_grid+'/creg012pe/grid/coordinates_CREG12_ext.nc')
+    jshift=985
+    ishift=278
+else:
+    print ("Wrong choice of grid")
 
 dlabel=str(delta)
 
@@ -61,7 +73,7 @@ for i in range(len(list_dates)) :
     fileout1=os.path.join(store_path1 + '/' + date0 + '_intpairs_' + EXP + '_delta' + dlabel +'.py')
     fileout2=os.path.join(store_path2 + '/' + date0 + '_anggrid_at_int_' + EXP + '_delta' + dlabel +'.py')
     print(fileout1)
-    lkf_pairs_and_angles(date0,creggrid,path_filein,data_pathnc,fileout1,fileout2,delta)
+    lkf_pairs_and_angles(date0,path_filein,data_pathnc,fileout1,fileout2,delta,grid_path,ishift,jshift)
 
 print('driver_LKF_pairs_and_angles is done')
 print(EXP)
