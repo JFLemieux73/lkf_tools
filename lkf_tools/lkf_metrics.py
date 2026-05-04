@@ -601,46 +601,7 @@ def get_ij_intersection(intersec):
 
     return iint,jint,clean_int
 
-#-- x,y coordinates (in km) of LKF points around mid-point --
-# the mid-point is at 0,0. The i (j) axis is aligned with x (y).
-
-def xy_coor_old(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift) :
-    
-    j1=lkf1[:,0]
-    i1=lkf1[:,1]
-    lat=lkf1[:,3]
-    lon=lkf1[:,2]
-    m=0
-    xc=np.zeros(nmax+1-nmin)
-    yc=np.zeros(nmax+1-nmin)
-    for n in range(nmin,nmax+1) :
-        lat1=lat[n]
-        lon1=lon[n]
-
-        # point on local y axis
-        j=int(j1[n])+jshift-1
-        i=int(i1[nmid])+ishift-1
-
-        lat2=latgrid[j,i]
-        lon2=longrid[j,i]
-        # calc distance between y axis and lkf point
-        xc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(i1[n]-i1[nmid])
-
-        # point on local x axis
-        j=int(j1[nmid])+jshift-1
-        i=int(i1[n])+ishift-1
-
-        lat2=latgrid[j,i]
-        lon2=longrid[j,i]
-        # calc distance between x axis and lkf point
-        yc[m]=haversine(Rearth,lat1, lon1, lat2, lon2)*np.sign(j1[n]-j1[nmid])
-        
-        m=m+1
-
-#    plt.plot(xc,yc, 'orange')
-#    plt.show()
-
-    return xc, yc
+#-- x,y coordinates (in km) of LKF points around mid-point or intersection --
 
 def xy_coor(ilf,jlf,index,min_ind,max_ind,latgrid,longrid,ishift,jshift) :
     
@@ -888,7 +849,7 @@ def lkf_pairs_and_angles(date,path_filein,data_pathnc,fileout1,fileout2,dlt,grid
                         vari1=max(if1)-min(if1) # variation of i1 in pts used for polyfit                    
                         varj1=max(jf1)-min(jf1)
                         
-                        #--- x,y coordinates [km] of points in region around mid-point ---
+                        #--- x,y coordinates [km] of points in region around int point ---
                         xc1,yc1=xy_coor(if1,jf1,index1,min_ind1,max_ind1,latgrid,longrid,ishift,jshift)
                         #--- polyfit LKF1
                         xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,xc1,yc1,pdeg)
@@ -901,7 +862,7 @@ def lkf_pairs_and_angles(date,path_filein,data_pathnc,fileout1,fileout2,dlt,grid
                         vari2=max(if2)-min(if2) # variation of i2 in pts used for polyfit
                         varj2=max(jf2)-min(jf2)
 
-                        #--- x,y coordinates [km] of points in region around mid-point ---
+                        #--- x,y coordinates [km] of points in region around int point ---
                         xc2,yc2=xy_coor(if2,jf2,index2,min_ind2,max_ind2,latgrid,longrid,ishift,jshift)
                         #--- polyfit LKF2
                         xpf2,ypf2,ptype2,coeff2=get_polyfit(vari2,varj2,xc2,yc2,pdeg)
@@ -1148,7 +1109,8 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
         varj1=max(jf1)-min(jf1)
 
         #--- x,y coordinates [km] of points in region around mid-point ---
-        xc,yc=xy_coor_old(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift)
+        xc,yc=xy_coor(if1,jf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift)
+        #xc,yc=xy_coor_old(lkf1,nmid,nmin,nmax,latgrid,longrid,ishift,jshift)
 
         #--- get polyfit in region around mid-point ---
 #        xpf1,ypf1,ptype1,coeff1=get_polyfit(vari1,varj1,if1,jf1,pdeg) # polyfit LKF1
@@ -1165,6 +1127,7 @@ def lkf_angles_with_grid(date,grid_path,path_filein,fileout,dlt,ishift,jshift):
         angley=calc_int_angle(ptype1,coeff1,ptype2,coeff2)
 
         min_angle=min(anglex,angley)
+        print(ilkf1,anglex,angley,min_angle)
 
         #--- define y=cte aligned with x axis for plotting ---
         if ilkf1 == 950:
