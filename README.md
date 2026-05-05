@@ -1,7 +1,12 @@
 # General information
-This repository was forked from https://github.com/nhutter/lkf_tools. The detection and tracking algorithms correspond to version 2 of the nhutter repository. Minor modifications were done in lkf_tools/dataset.py to be able to process ECCC CICE outputs. The tools currently work for the CREG025 and CREG12 grids (regional ORCA grids). A user wanting to use another grid would have to make some modifications in lkf_metrics.py and in the drivers. 
+This repository was forked from https://github.com/nhutter/lkf_tools. The detection and tracking algorithms correspond to version 2 of the nhutter repository. Minor modifications were done in lkf_tools/dataset.py to be able to process ECCC CICE outputs. The tools currently work for the CREG025 and CREG12 grids (regional ORCA grids). Using another structured grid would require modifications in lkf_metrics.py and in the drivers. 
 
-The main driver is driver_lkf_detect.py. There is no config file. The user simply enters inputs in the driver file. 
+The main driver is driver_lkf_detect.py. There is no config file. The user simply enters information in the INPUT section of the driver file:  
+
+`vortflag` specifies whether the netcdf files include vorticity (=1) or not (=2). Note that vorticity is required to identify pairs of conjugate LKFs. 
+`grid` is a label to identify the grid of the model.  
+`EXP` is a label to identify a numerical experiment.  
+`main_dir` is a directory that contains all the numerical experiments.  
 
 The detection algorithm requires the activation of lkf_tools with conda (enter proper path_to_conda):
 
@@ -33,9 +38,13 @@ driver_lkf_concatenate_width.py
 driver_lkf_density.py  
 driver_lkf_length.py  
 driver_lkf_number.py  
-driver_lkf_pairs_and_angles.py  
+driver_lkf_pairs_and_angles.py 
 
-Statistics can then be calculated and plots produced. This can be done using the set of tools in lkf_stats_and_plots.  
+The user must enter input information in the INPUT section of the drivers.
+
+### driver_lkf_angles_with_grid_at_mid_length.py
+
+Statistics can then be calculated and plots produced. This can be done using the set of tools in the directory lkf_stats_and_plots.  
 
 ## Contact
 
