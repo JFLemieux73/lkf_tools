@@ -17,21 +17,19 @@ import calendar
 #------------------------------------------------------------
 
 #----- INPUT -----
+grid='creg12' # creg025 or creg12
 #ni = 528 ; creg025
 #nj = 735 ;
 #ni = 1580 ; creg12
 #nj = 2198 ;
-
 # Important: given midpoint mp with coordinates (imp,jmp), polyfit on LKF is done for the region:
 # mp-delta to mp + delta. 
 
-grid='creg12' # creg025 or creg12
 EXP='run_eg1p75_ef1p75'
-
-main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
+main_dir='/home/jfl001/data/LKF_diag'
 main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS'
-SDATE='20050425'
-EDATE='20050425'
+SDATE='20050101'
+EDATE='20050102'
 FREQ='24H'
 suffix='0000_iceh_inst'
 delta=10 

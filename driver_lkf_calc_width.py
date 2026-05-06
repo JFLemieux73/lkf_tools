@@ -16,23 +16,22 @@ import calendar
 #-------------------------------------------------------------
 
 #----- INPUT -----
+creggrid='creg12' # creg025 or creg12
 #ni = 528 ; creg025
 #nj = 735 ;
 #ni = 1580 ; creg12
 #nj = 2198 ;
-creggrid='creg12' # creg025 or creg12
-EXP='run_eg1p75_ef1p75'
 
-main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
-main_dirnc='/home/jfl001/data/TESTlkf/'
+EXP='run_eg1p75_ef1p75'
+main_dir='/home/jfl001/data/LKF_diag'
+main_dirnc='/home/jfl001/data/Model_outputs'
 dir_util='/home/jfl001/data/Lemieux2022/UTIL'
 dsearch=5 # +- dsearch cells around one LKF cell (dist is capped if searching too far!!!)
 frac=0.5 # half width is defined as eps_tot < frac*LKFepsmax 
 mindist=0.0 # LKF point is analysed if dist from land > mindist (km)
-
 FREQ='24H'
-SDATE='20050425'
-EDATE='20050426'
+SDATE='20050101'
+EDATE='20050102'
 suffix='0000_iceh_inst'
 
 #----- label for width criterion ---------------------------

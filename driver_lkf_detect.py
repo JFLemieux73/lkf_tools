@@ -22,22 +22,22 @@ import calendar
 #----------------------------------------------------------------
 
 #----- INPUT -----
+grid='creg12' # creg025 or creg12
 #ni = 528 ; creg025
 #nj = 735 ;
 #ni = 1580 ; creg12
 #nj = 2198 ;
-vortflag=1 # 1: output includes vorticity, 2: no vorticity
-grid='creg12' # creg025 or creg12
-EXP='run_eg1p75_ef1p75'
 
-main_dir='/home/jfl001/data/TESTlkf'
+vortflag=1 # 1: output includes vorticity, 2: no vorticity
+EXP='run_eg1p75_ef1p75'
+main_dirnc='/home/jfl001/data/Model_outputs'
 main_dir_grid='/home/socn000/data/ppp8/env_rhel-9-graniterapids-64/datafiles/constants/oce/repository/master/CONCEPTS/'
-store_main_dirTP='/home/jfl001/data/DEVlkfv3'
+store_main_dirTP='/home/jfl001/data'
 kvalue=7 # value for kernel
-produce_plot=True
+produce_plot=False
 pack_ice_mask=False
-SDATE='20050425'
-EDATE='20050425'
+SDATE='20050101'
+EDATE='20050102'
 FREQ='24H'
 suffix='0000_iceh_inst'
 
@@ -71,7 +71,7 @@ list_dates=list(pd.date_range(SDATE,EDATE, freq=FREQ))
 
 for i in range(len(list_dates)) :
     date0 = (list_dates[i] + timedelta(days=-0)).strftime('%Y%m%d%H')
-    data_path=os.path.join(main_dir+'/'+EXP+'/hourly/'+date0+suffix+'.nc')
+    data_path=os.path.join(main_dirnc+'/'+EXP+'/hourly/'+date0+suffix+'.nc')
     fileout=date0 + '_' + EXP
     print(fileout)
     lkf_detect(date0, grid, vortflag, grid_path, data_path, store_path, fileout, kvalue, produce_plot, pack_ice_mask)
