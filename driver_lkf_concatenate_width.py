@@ -19,11 +19,10 @@ import calendar
 
 #----- INPUT -----
 EXP='run_eg1p75_ef1p75'
-main_dir='/home/jfl001/data/DEVlkfv3/LKF_diag'
-
+main_dir='/home/jfl001/data/LKF_diag'
 FREQ='24H'
-SDATE='20050425'
-EDATE='20050426'
+SDATE='20050101'
+EDATE='20050102'
 suffix='_000'
 fraclabel='0p5'
 dsearch=5 # +- dsearch cells around one LKF cell (dist is capped if searching too far!!!)
