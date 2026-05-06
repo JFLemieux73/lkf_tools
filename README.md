@@ -7,14 +7,14 @@ The main driver is driver_lkf_detect.py. There is no config file. The user simpl
 `vortflag` specifies whether the netcdf files include vorticity (=1) or not (=2). Note that vorticity is required to identify pairs of conjugate LKFs. 
 `EXP` is a label to identify a numerical experiment.  
 `main_dirnc` is the path to the directory that contains model netcdf outputs.  
-`main_dir_grid` is the path to the directory that contains the model grid.
+`main_dir_grid` is the path to the directory that contains the model grid.  
 `store_main_dirTP` is the path to the directory where LKF diagnostic will be stored.  
 `kvalue` is the kernel value for the detection algorithm. Suggested value: 7.  
 `produce_plot` set to true creates a figure showing the detected LKFs.  
-`pack_ice_mask` set to true causes the algorithm to detect LKFs only inside a mask in the central Arctic. This mask would need to be created for other grids. 
+`pack_ice_mask` set to true causes the algorithm to detect LKFs only inside a mask in the central Arctic. This mask would need to be created for other grids.  
 `SDATE` specifies the starting date for the detection algorithm.  
 `EDATE` specifies the end date for the detection algorithm.  
-`FREQ` specifies the frequency at which the detection is performed. Suggested value: 24H (daily).
+`FREQ` specifies the frequency at which the detection is performed. Suggested value: 24H (daily).  
 `suffix` is an additional string to specify the names of netcdf files.  
 
 The detection algorithm requires the activation of lkf_tools with conda (enter proper path_to_conda):
