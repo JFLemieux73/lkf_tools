@@ -4,7 +4,7 @@ This repository was forked from https://github.com/nhutter/lkf_tools. The detect
 The main driver is driver_lkf_detect.py. There is no config file. The user simply enters information in the INPUT section of the driver file:  
 
 `grid` is a label to identify the grid of the model.  
-`vortflag` specifies whether the netcdf files include vorticity (=1) or not (=2). Note that vorticity is required to identify pairs of conjugate LKFs. 
+`vortflag` specifies whether the netcdf files include vorticity (=1) or not (=2). Note that vorticity is required to identify pairs of conjugate LKFs.  
 `EXP` is a label to identify a numerical experiment.  
 `main_dirnc` is the path to the directory that contains model netcdf outputs.  
 `main_dir_grid` is the path to the directory that contains the model grid.  
