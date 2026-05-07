@@ -16,7 +16,7 @@ import calendar
 #-------------------------------------------------------------
 
 #----- INPUT -----
-creggrid='creg12' # creg025 or creg12
+grid='creg12' # creg025 or creg12
 #ni = 528 ; creg025
 #nj = 735 ;
 #ni = 1580 ; creg12
@@ -33,6 +33,17 @@ FREQ='24H'
 SDATE='20050101'
 EDATE='20050102'
 suffix='0000_iceh_inst'
+
+#------------------------------------------------------------
+
+if (grid == 'creg025'):
+    jshift=329
+    ishift=93
+elif (grid == 'creg12'):
+    jshift=985
+    ishift=278
+else:
+    print ("Wrong choice of grid")
 
 #----- label for width criterion ---------------------------
 
@@ -63,7 +74,7 @@ for i in range(len(list_dates)) :
     data_pathnc=os.path.join(main_dirnc+'/'+EXP+'/hourly/'+date0+suffix+'.nc')
     #path_filedist=os.path.join(dir_util +'/dist_'+creggrid+'.pkl')
 
-    lkf_calc_width(date0,creggrid,path_filein,path_fileout,data_pathnc,dsearch,frac)
+    lkf_calc_width(date0,path_filein,path_fileout,data_pathnc,dsearch,frac,ishift,jshift)
     #lkf_calc_width(date0,creggrid,path_filedist,path_filein,path_fileout,data_pathnc,dsearch,frac,mindist)
 
 print('Width analysis done for experiment:')
