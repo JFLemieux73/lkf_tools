@@ -25,10 +25,10 @@ creggrid='creg12' # creg025 or creg12
 EXP='run_eg1p75_ef1p75'
 main_dir='/home/jfl001/data/LKF_diag'
 main_dirnc='/home/jfl001/data/Model_outputs'
-dir_util='/home/jfl001/data/Lemieux2022/UTIL'
+#dir_util='/home/jfl001/data/Lemieux2022/UTIL'
 dsearch=5 # +- dsearch cells around one LKF cell (dist is capped if searching too far!!!)
 frac=0.5 # half width is defined as eps_tot < frac*LKFepsmax 
-mindist=0.0 # LKF point is analysed if dist from land > mindist (km)
+#mindist=0.0 # LKF point is analysed if dist from land > mindist (km)
 FREQ='24H'
 SDATE='20050101'
 EDATE='20050102'
@@ -60,11 +60,11 @@ for i in range(len(list_dates)) :
     tpdir=date0ext + '_' + EXP
     path_filein=os.path.join(main_dir+'/'+EXP+'/detectedLKFs/'+tpdir+'/'+filein)
     path_fileout=os.path.join(main_dir+'/'+EXP+'/detectedLKFs/'+tpdir+'/'+fileout)
-    #data_path=os.path.join(main_dirnc+'/'+EXP+'/hourly/'+date0ext+'.nc')
     data_pathnc=os.path.join(main_dirnc+'/'+EXP+'/hourly/'+date0+suffix+'.nc')
-    path_filedist=os.path.join(dir_util +'/dist_'+creggrid+'.pkl')
+    #path_filedist=os.path.join(dir_util +'/dist_'+creggrid+'.pkl')
 
-    lkf_calc_width(date0,creggrid,path_filedist,path_filein,path_fileout,data_pathnc,dsearch,frac,mindist)
+    lkf_calc_width(date0,creggrid,path_filein,path_fileout,data_pathnc,dsearch,frac)
+    #lkf_calc_width(date0,creggrid,path_filedist,path_filein,path_fileout,data_pathnc,dsearch,frac,mindist)
 
 print('Width analysis done for experiment:')
 print(EXP)

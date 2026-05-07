@@ -139,13 +139,11 @@ def lkf_detect(date, creggrid, vortflag, grid_path, data_path, store_path, fileo
 # then calculated in perpendicular directions referred to as 
 # search directions. The search is done for a max number of 
 # cells (dsearch) in a given direction. The half widths are 
-# obtained when eps_tot < frac * (eps_tot_max). Half widths 
-# are only calculated when the distance of a LKF point 
-# (grid cell) from land is larger than mindist.
+# obtained when eps_tot < frac * (eps_tot_max).
 #
 #------------------------------------------------------------
 
-def lkf_calc_width(date,creggrid,path_filedist,path_filein,path_fileout,data_path,dsearch,frac,mindist):
+def lkf_calc_width(date,creggrid,path_filein,path_fileout,data_path,dsearch,frac):
     
     print('working on date:')
     print(date)
@@ -165,7 +163,7 @@ def lkf_calc_width(date,creggrid,path_filedist,path_filein,path_fileout,data_pat
 
 #----- open distance to land file --------
 
-    dist = np.load(path_filedist,allow_pickle=True)
+#    dist = np.load(path_filedist,allow_pickle=True)
 
 #*** NOTE OF SHIFTED INDICES ***
 
@@ -256,7 +254,8 @@ def lkf_calc_width(date,creggrid,path_filedist,path_filein,path_fileout,data_pat
 # width is analysed if sdelt=1, 2 or 4. These corresponds to vectors v along 
 # x^, y^ or at 45 deg.
 
-            if (sdelt == 1 or sdelt == 2 or sdelt == 4 and dist[j,i] > mindist):
+            if (sdelt == 1 or sdelt == 2 or sdelt == 4):
+            #if (sdelt == 1 or sdelt == 2 or sdelt == 4 and dist[j,i] > mindist):
                 av1=int(-bv) # v1 and v2 are found by rotating v by +-90 deg
                 bv1=int(av)
                 av2=int(bv)
@@ -310,7 +309,7 @@ def lkf_calc_width(date,creggrid,path_filedist,path_filein,path_fileout,data_pat
         out_lkfs.append(zlkf)
 
         l=l+1
-
+        
 #----- save output file -----
 
     np.save(path_fileout,out_lkfs,allow_pickle=True)
@@ -334,6 +333,7 @@ def lkf_concatenate_width (date,path_filein, hwidth):
     lkfs = np.load(path_filein,allow_pickle=True)
             
     for i in range(len(lkfs)) :
+
         ilkf=lkfs[i]
         nb=ilkf.shape[0] # nb of points in LKF i
 
