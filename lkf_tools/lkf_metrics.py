@@ -143,7 +143,7 @@ def lkf_detect(date, creggrid, vortflag, grid_path, data_path, store_path, fileo
 #
 #------------------------------------------------------------
 
-def lkf_calc_width(date,creggrid,path_filein,path_fileout,data_path,dsearch,frac):
+def lkf_calc_width(date,path_filein,path_fileout,data_path,dsearch,frac,ishift,jshift):
     
     print('working on date:')
     print(date)
@@ -187,15 +187,6 @@ def lkf_calc_width(date,creggrid,path_filein,path_fileout,data_path,dsearch,frac
 #
 # ishift = lkf_data.index_x[0][0]
 # jshift = lkf_data.index_y[0][0]
-
-    if (creggrid == 'creg025'):
-        jshift=329
-        ishift=93
-    elif (creggrid == 'creg12'):
-        jshift=985
-        ishift=278
-    else:
-        print ("Wrong choice of grid")
 
 #---- analyse  lkfs -----
 
@@ -371,7 +362,7 @@ def lkf_concatenate_width (date,path_filein, hwidth):
 #
 #------------------------------------------------------------
 
-def lkf_density(date,creggrid,path_filein):
+def lkf_density(date,path_filein,nx,ny,ishift,jshift):
     
     print('working on date:')
     print(date)
@@ -404,19 +395,6 @@ def lkf_density(date,creggrid,path_filein):
 # ishift = lkf_data.index_x[0][0]
 # jshift = lkf_data.index_y[0][0]
 
-    if (creggrid == 'creg025'):
-        nx=528
-        ny=735
-        jshift=329
-        ishift=93
-    elif (creggrid == 'creg12'):
-        nx=1580
-        ny=2198
-        jshift=985
-        ishift=278
-    else:
-        print ("Wrong choice of grid")
-
 #---- calc density contribution from group of LKFs -----
 
     TPdens= np.zeros((ny,nx))
@@ -436,7 +414,6 @@ def lkf_density(date,creggrid,path_filein):
         l=l+1
 
     return TPdens
-
 
 #------------------------------------------------------------
 #  Functions for lkf_pairs_and_angles
@@ -1192,7 +1169,7 @@ def haversine(re,lat1, lon1, lat2, lon2):
 #
 #------------------------------------------------------------
 
-def lkf_length(date,creggrid,path_filein,fileout):
+def lkf_length(date,path_filein,fileout):
     
     print('working on date:')
     print(date)

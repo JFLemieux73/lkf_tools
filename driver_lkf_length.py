@@ -17,11 +17,6 @@ import calendar
 #------------------------------------------------------------
 
 #----- INPUT -----
-creggrid='creg12' # creg025 or creg12
-#ni = 528 ; creg025
-#nj = 735 ;
-#ni = 1580 ; creg12
-#nj = 2198 ;
 
 EXP='run_eg1p75_ef1p75'
 main_dir='/home/jfl001/data/LKF_diag'
@@ -46,7 +41,7 @@ for i in range(len(list_dates)) :
     print(path_filein)
     fileout=os.path.join(store_path + '/' + date0 + '_length_' + EXP + '.py')
     print(fileout)
-    lkf_length(date0,creggrid,path_filein,fileout)
+    lkf_length(date0,path_filein,fileout)
 
 print('driver_LKF_length is done')
 print(EXP)

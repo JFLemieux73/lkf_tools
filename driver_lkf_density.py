@@ -19,7 +19,7 @@ import calendar
 #------------------------------------------------------------
 
 #----- INPUT -----
-creggrid='creg12' # creg025 or creg12
+grid='creg12' # creg025 or creg12
 #ni = 528 ; creg025
 #nj = 735 ;
 #ni = 1580 ; creg12
@@ -33,21 +33,25 @@ EDATE='20050102'
 suffix='_000'
 #-----------------------------------------
 
+if (grid == 'creg025'):
+    nx=528
+    ny=735
+    jshift=329
+    ishift=93
+elif (grid == 'creg12'):
+    nx=1580
+    ny=2198
+    jshift=985
+    ishift=278
+else:
+    print ("Wrong choice of grid")
+
 densitydir=os.path.join(main_dir+'/'+EXP+'/DENSITY/')
 fileout='density_lkf_'+SDATE+'_'+EDATE+'.npy'
 path_fileout=os.path.join(densitydir+fileout)
 
 if not os.path.isdir(densitydir):
     os.makedirs(densitydir)
-
-if (creggrid == 'creg025'):
-    nx=528
-    ny=735
-elif (creggrid == 'creg12'):
-    nx=1580
-    ny=2198
-else:
-    print ("Wrong choice of grid")
 
 density= np.zeros((ny,nx))
 tpdensity=np.zeros((ny,nx))
@@ -62,7 +66,7 @@ for i in range(len(list_dates)) :
     tpdir=date0ext + '_' + EXP
     path_filein=os.path.join(main_dir+'/'+EXP+'/detectedLKFs/'+tpdir+'/'+filein)
     print(path_filein)
-    tpdensity=lkf_density(date0,creggrid,path_filein)
+    tpdensity=lkf_density(date0,path_filein,nx,ny,ishift,jshift)
     n=n+1
     density=np.add(density,tpdensity)
     
