@@ -113,7 +113,7 @@ class process_dataset(object):
 
         # open pack ice mask HARD CODED!!!
         if (self.usepmask):
-            path_filemask='/home/jfl001/data/Lemieux_et_al_plast_pot/UTIL/mask_pack_ice.npy'
+            path_filemask='/home/jfl001/data/Lemieux_et_al_plast_pot_storage/UTIL/mask_pack_ice.npy'
             pmask = np.load(path_filemask,allow_pickle=True) # 1 or 0
 
         # Check for already dectected features
