@@ -45,7 +45,6 @@ The drivers for the LKF metrics are:
 
 driver_lkf_angles_with_grid_at_mid_length.py  
 driver_lkf_calc_width.py  
-driver_lkf_concatenate_width.py  
 driver_lkf_density.py  
 driver_lkf_length.py  
 driver_lkf_number.py  
@@ -66,7 +65,7 @@ Calculates the width of detected LKFs (in number of pixels) for the period `SDAT
 `dsearch` defines the maximum number of grid cells in all search directions for calculating the width. Suggested value: 5. 
 `frac` defines the criterion to determine the LKF width. Suggested value: 0.5   
 
-Note that the calculation of the width needs to be done in two steps. Once  driver_lkf_calc_width.py is done, driver_lkf_concatenate_width.py should be used.  
+The driver also concatenates the half width data for further analysis.   
 
 ### driver_lkf_density.py  
 

@@ -3,7 +3,7 @@ sys.path.append(r'lkf_tools/')
 import numpy as np
 import pandas as pd
 from datetime import timedelta
-from lkf_metrics  import lkf_calc_width
+from lkf_metrics  import lkf_calc_width,lkf_concatenate_width
 import pickle
 import calendar
 
@@ -11,7 +11,7 @@ import calendar
 #
 # Driver that loops through a series of files (dates) and that 
 # calls the funtion lkf_calc_width that calculates the LKF
-# half widths.
+# half widths. It then concatenates the width data for analysis.
 #
 #-------------------------------------------------------------
 
@@ -59,7 +59,7 @@ else:
 
 dsstr=str(dsearch)
 
-#-----------------------------------------------------------
+#---- calc width --------------------------------------------------
 
 list_dates=list(pd.date_range(SDATE,EDATE, freq=FREQ))
 
@@ -78,4 +78,42 @@ for i in range(len(list_dates)) :
     #lkf_calc_width(date0,creggrid,path_filedist,path_filein,path_fileout,data_pathnc,dsearch,frac,mindist)
 
 print('Width analysis done for experiment:')
+print(EXP)
+
+
+#---- concatenate width data for analysis ------------------------
+
+widthdir=os.path.join(main_dir+'/'+EXP+'/WIDTH/')
+
+if not os.path.isdir(widthdir):
+    os.makedirs(widthdir)
+
+fileout1='hwidth1_lkf_'+SDATE+'_'+EDATE+'_f'+fraclabel+'_ds'+dsstr+'.npy'
+path_fileout1=os.path.join(widthdir+fileout1)
+fileout2='hwidth2_lkf_'+SDATE+'_'+EDATE+'_f'+fraclabel+'_ds'+dsstr+'.npy'
+path_fileout2=os.path.join(widthdir+fileout2)
+
+hwidth1=[]
+hwidth2=[]
+tpvect=[]
+for i in range(len(list_dates)):
+    date0 = (list_dates[i] + timedelta(days=-0)).strftime('%Y%m%d%H')
+    date0ext=date0
+    filein='lkf_'+date0ext+'_'+EXP+'_f'+fraclabel+'_ds'+dsstr+'.npy'
+    tpdir=date0ext+'_'+EXP
+    
+    tpvect=[]
+    path_filein=os.path.join(main_dir+'/'+EXP+'/detectedLKFs/'+tpdir+'/'+filein)
+    tpvect=lkf_concatenate_width (date0, path_filein, hwidth=1)
+    hwidth1.extend(tpvect)
+
+    tpvect=[]
+    path_filein=os.path.join(main_dir+'/'+EXP+'/detectedLKFs/'+tpdir+'/'+filein)
+    tpvect=lkf_concatenate_width (date0, path_filein, hwidth=2)
+    hwidth2.extend(tpvect)
+
+np.save(path_fileout1,hwidth1,allow_pickle=True)
+np.save(path_fileout2,hwidth2,allow_pickle=True)
+
+print('Concatenation done for experiment:')
 print(EXP)
